@@ -1,0 +1,117 @@
+#################################################################
+# Team Namespace Configuration Template
+#
+# This file defines namespaces for a specific team/application.
+# It's referenced by applications-ns.yaml via the gitPath field.
+#
+# Usage:
+# 1. Copy this file to {environment}/{cluster-name}/namespaces/{team}-{apmnum}.yaml
+# 2. Update apmnum, team name, and namespace configurations
+# 3. Add namespaces to the namespaces list
+#################################################################
+
+# APM number for this team/application
+apmnum: "CHANGE_ME"
+
+#################################################################
+# Default Values for namespaces helm chart
+#################################################################
+defaults:
+  # ArgoCD application defaults
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+
+  # Helm repository defaults
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository
+  path: charts
+
+  # Namespaces chart defaults
+  chart: namespaces
+  targetRevision: 1.5.2
+
+  # Vault plugin defaults
+  plugin: false
+  AWS_REGION: "us-east-1"  # Update with your AWS region
+  AVP_TYPE: "awssecretsmanager"
+
+  # ECR role for image pulling (update with your role ARN)
+  ecrUpdateRole: arn:aws:iam::ACCOUNT_ID:role/rosa-ecr-access-role
+
+  # Primary owner email
+  primary_owner: "team-lead@example.com"
+
+  # Annotations (applied to ArgoCD project)
+  annotations:
+    comments: "Team namespaces"
+    description: "Team namespace configuration"
+    display_name: "Team Namespaces"
+
+  # Labels (applied to ArgoCD project)
+  labels:
+    domain: "Infrastructure_and_Cloud"
+    primary_owner: "team-lead@example.com"
+    zone: production  # or development, staging, etc.
+    quota: "resourcequota"
+    region: "NoNodeSelector"
+    ingress: customer-ingress
+    egressip: "0.0.0.1"
+
+  # Admin group name
+  groupname:
+    admin_group: team_admins
+
+  # Default resource quota (can be overridden per namespace)
+  resourceQuota:
+
+  # Service account configuration
+  serviceAccount:
+    create: true
+    automount: true
+    name: "pipeline"
+
+#################################################################
+# NAMESPACE CREATION
+#
+# Define namespaces for this team. Each namespace can have:
+# - Custom resource quotas
+# - Labels and annotations
+# - Group assignments
+# - Application Git paths
+#################################################################
+namespaces: []
+
+# Example namespaces (commented out):
+# namespaces:
+#   - name: team-ns-dev
+#     annotations:
+#       # Custom annotations for this namespace
+#     labels:
+#       dynatrace: true  # Example: Enable Dynatrace monitoring
+#       environment: development
+#     groupname:
+#       # Group assignments (if different from defaults)
+#     resourceQuota:
+#       limits_cpu: "2"
+#       limits_memory: "4Gi"
+#       requests_cpu: "1"
+#       requests_memory: "2Gi"
+#       persistentvolumeclaims: "10"
+#       limits_ephemeral_storage: "10Gi"
+#       pods: "50"
+#     apps:
+#       gitPath: https://github.com/team/app-configs.git
+#
+#   - name: team-ns-test
+#     annotations:
+#     labels:
+#       dynatrace: true
+#       environment: testing
+#     groupname:
+#     resourceQuota:
+#       limits_cpu: "2"
+#       limits_memory: "4Gi"
+#       requests_cpu: "1"
+#       requests_memory: "2Gi"
+#       persistentvolumeclaims: "10"
+#       limits_ephemeral_storage: "10Gi"
+#       pods: "50"

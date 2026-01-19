@@ -1,0 +1,30 @@
+#################################################################
+# Example Infrastructure Configuration
+#
+# This is an example showing a minimal infrastructure configuration
+# with one component (EFS) configured.
+#################################################################
+
+teamName: cluster-config
+
+defaults:
+  clusterName: example-cluster
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository/
+  path: charts
+  plugin: true
+  AWS_REGION: "us-east-1"
+  AVP_TYPE: "awssecretsmanager"
+
+infrastructure:
+  # Example: EFS CSI driver
+  # Uncomment and update with your actual values:
+  # - chart: cluster-efs
+  #   targetRevision: 0.4.12
+  #   namespace: openshift-cluster-csi-drivers
+  #   values:
+  #     roleArn: arn:aws:iam::123456789012:role/example-cluster-rosa-efs-csi-role-iam
+  #     fileSystemId: fs-0123456789abcdef0
+  #     helper-operator:
+  #       startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554

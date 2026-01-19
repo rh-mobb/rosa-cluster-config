@@ -1,0 +1,71 @@
+#################################################################
+# Application Namespaces Configuration Template
+#
+# This file defines application teams and their namespaces deployed
+# via GitOps using the app-of-apps-application Helm chart.
+#
+# Usage:
+# 1. Copy this file to {environment}/{cluster-name}/applications-ns.yaml
+# 2. Update clusterName and other cluster-specific values
+# 3. Add application teams to the applications list
+#################################################################
+
+#################################################################
+# teamName used for argocd application names and namespace names.
+#################################################################
+teamName: platform
+
+#################################################################
+# Default Values for app-of-apps-application helm chart
+#################################################################
+defaults:
+  # Cluster name (update this for your cluster)
+  clusterName: CHANGE_ME
+
+  # ArgoCD application defaults
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+
+  # Helm repository defaults
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+
+  # Vault plugin defaults
+  plugin: false
+  AWS_REGION: "us-east-1"  # Update with your AWS region
+  AVP_TYPE: "awssecretsmanager"
+
+#################################################################
+# APPLICATION Teams/Namespaces to be deployed.
+#
+# Add application teams here. Each team gets:
+# - Their own ArgoCD Application (optional, if gitopsCreate: true)
+# - Namespace configuration file reference
+# - Optional: ArgoCD project for self-service GitOps
+#
+# Start with an empty list and add teams as needed.
+#################################################################
+applications: []
+
+# Example application teams (commented out):
+# applications:
+#   - name: payments
+#     apmnum: "1234"
+#     appserviceNumber: "5678"
+#     gitopsCreate: true  # Set to true to create ArgoCD project for team
+#     gitRepoUrl: 'https://github.com/your-org/cluster-config.git'
+#     gitPath: {environment}/{cluster-name}/namespaces/payments-1234.yaml
+#     appProject:
+#       adGroup: YOUR_AD_GROUP  # Active Directory group for team access
+#       repos:
+#       - 'https://rosa-hcp-dedicated-vpc.github.io/helm-repository'
+#       - 'https://github.com/your-org/cluster-config.git'
+#
+#   - name: accounting
+#     apmnum: "abcd"
+#     appserviceNumber: "efgh"
+#     gitopsCreate: false  # Set to false if team doesn't need ArgoCD project
+#     gitRepoUrl: 'https://github.com/your-org/cluster-config.git'
+#     gitPath: {environment}/{cluster-name}/namespaces/accounting-abcd.yaml

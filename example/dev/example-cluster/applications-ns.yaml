@@ -1,0 +1,29 @@
+#################################################################
+# Example Application Namespaces Configuration
+#
+# This is an example showing a minimal applications configuration.
+#################################################################
+
+teamName: platform
+
+defaults:
+  clusterName: example-cluster
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+  plugin: false
+  AWS_REGION: "us-east-1"
+  AVP_TYPE: "awssecretsmanager"
+
+applications: []
+# Example: Add application teams here
+# applications:
+#   - name: example-team
+#     apmnum: "1234"
+#     appserviceNumber: "5678"
+#     gitopsCreate: false
+#     gitRepoUrl: 'https://github.com/your-org/cluster-config.git'
+#     gitPath: dev/example-cluster/namespaces/example-team-1234.yaml

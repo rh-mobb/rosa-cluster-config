@@ -1,0 +1,59 @@
+#################################################################
+# Application Namespaces Configuration for pczarkow cluster
+#
+# This file defines application teams and their namespaces deployed
+# via GitOps using the app-of-apps-application Helm chart.
+#################################################################
+
+#################################################################
+# teamName used for argocd application names and namespace names.
+#################################################################
+teamName: platform
+
+#################################################################
+# Default Values for app-of-apps-application helm chart
+#################################################################
+defaults:
+  # Cluster name
+  clusterName: pczarkow
+
+  # ArgoCD application defaults
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+
+  # Helm repository defaults
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+
+  # Vault plugin defaults
+  plugin: false
+  AWS_REGION: "us-east-2"  # Update if your cluster is in a different region
+  AVP_TYPE: "awssecretsmanager"
+
+#################################################################
+# APPLICATION Teams/Namespaces to be deployed.
+#
+# Add application teams here. Each team gets:
+# - Their own ArgoCD Application (optional, if gitopsCreate: true)
+# - Namespace configuration file reference
+# - Optional: ArgoCD project for self-service GitOps
+#
+# Start with an empty list and add teams as needed.
+#################################################################
+applications: []
+
+# Example: Add application teams as needed
+# applications:
+#   - name: example-team
+#     apmnum: "1234"
+#     appserviceNumber: "5678"
+#     gitopsCreate: true  # Set to true to create ArgoCD project for team
+#     gitRepoUrl: 'https://github.com/your-org/cluster-config.git'
+#     gitPath: dev/pczarkow/namespaces/example-team-1234.yaml
+#     appProject:
+#       adGroup: YOUR_AD_GROUP  # Active Directory group for team access
+#       repos:
+#       - 'https://rosa-hcp-dedicated-vpc.github.io/helm-repository'
+#       - 'https://github.com/your-org/cluster-config.git'

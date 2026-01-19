@@ -1,0 +1,78 @@
+#################################################################
+# Infrastructure Configuration Template
+#
+# This file defines infrastructure components deployed via GitOps
+# using the app-of-apps-infrastructure Helm chart.
+#
+# Usage:
+# 1. Copy this file to {environment}/{cluster-name}/infrastructure.yaml
+# 2. Update clusterName, AWS_REGION, and other cluster-specific values
+# 3. Add infrastructure components to the infrastructure list
+#################################################################
+
+#################################################################
+# teamName used for argocd application names and namespace names.
+#################################################################
+teamName: cluster-config
+
+#################################################################
+# Default Values for app-of-apps-infrastructure helm chart
+#################################################################
+defaults:
+  # Cluster name (update this for your cluster)
+  clusterName: CHANGE_ME
+
+  # ArgoCD application defaults
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+
+  # Helm repository defaults
+  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository/
+  path: charts
+
+  # Vault plugin defaults (for AWS Secrets Manager integration)
+  plugin: true
+  AWS_REGION: "us-east-1"  # Update with your AWS region
+  AVP_TYPE: "awssecretsmanager"
+
+#################################################################
+# INFRASTRUCTURE Charts to be deployed.
+#
+# Add infrastructure components here. Examples:
+# - cluster-efs: EFS CSI driver for shared storage
+# - compliance-operator: Compliance scanning
+# - cluster-logging: CloudWatch logging integration
+# - acm-operator: Advanced Cluster Management
+# - rhacs-operator: Red Hat Advanced Cluster Security
+# - overprovisioning: Pod overprovisioning for cost optimization
+#
+# Start with an empty list and add components as needed.
+#################################################################
+infrastructure: []
+
+# Example infrastructure components (commented out):
+# infrastructure:
+#   - chart: cluster-efs
+#     targetRevision: 0.4.12
+#     namespace: openshift-cluster-csi-drivers
+#     values:
+#       roleArn: arn:aws:iam::ACCOUNT_ID:role/CLUSTER_NAME-rosa-efs-csi-role-iam
+#       fileSystemId: fs-XXXXXXXXXXXXX
+#       helper-operator:
+#         startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
+#
+#   - chart: compliance-operator
+#     targetRevision: 1.2.10
+#     namespace: openshift-compliance
+#     values:
+#       helper-operator:
+#         startingCSV: compliance-operator.v1.7.1
+#
+#   - chart: cluster-logging
+#     targetRevision: 0.5.10
+#     namespace: openshift-logging
+#     values:
+#       roleArn: arn:aws:iam::ACCOUNT_ID:role/CLUSTER_NAME-rosa-cloudwatch-role-iam
+#       region: us-east-1
+#       helper-operator:
+#         startingCSV: cluster-logging.v6.2.3

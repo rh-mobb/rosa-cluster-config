@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+Thumbs.db
+*~
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Sensitive data (if accidentally committed)
+*.secret
+*.key
+*credentials*
