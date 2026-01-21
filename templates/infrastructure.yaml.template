@@ -69,7 +69,7 @@ infrastructure: []
 #         startingCSV: compliance-operator.v1.7.1
 #
 #   - chart: cluster-logging
-#     targetRevision: 0.5.10
+#     targetRevision: 0.5.14
 #     namespace: openshift-logging
 #     values:
 #       roleArn: arn:aws:iam::ACCOUNT_ID:role/CLUSTER_NAME-rosa-cloudwatch-role-iam
