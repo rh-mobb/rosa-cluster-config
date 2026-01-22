@@ -66,7 +66,7 @@ infrastructure:
   # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
   # Update roleArn after Terraform creates CloudWatch IAM role
   - chart: cluster-logging
-    targetRevision: 0.5.14
+    targetRevision: 0.5.15
     namespace: openshift-logging
     values:
       roleArn: arn:aws:iam::660250927410:role/pczarkow-rosa-cloudwatch-role-iam  # Update ACCOUNT_ID
