@@ -75,6 +75,7 @@ infrastructure:
         role_arn: arn:aws:iam::660250927410:role/pczarkow-rosa-cloudwatch-role-iam
         web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
       region: us-east-2  # Update if your cluster is in a different region
+      clustername: pczarkow
       helper-operator:
         startingCSV: cluster-logging.v6.4.0
 
