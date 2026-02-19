@@ -22,12 +22,12 @@ defaults:
   gitopsNamespace: openshift-gitops
 
   # Helm repository defaults
-  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository/
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
 
   # Vault plugin defaults (for AWS Secrets Manager integration)
   plugin: true
-  AWS_REGION: "us-east-2"  # Update if your cluster is in a different region
+  AWS_REGION: "ap-southeast-2"  # Update if your cluster is in a different region
   AVP_TYPE: "awssecretsmanager"
 
 #################################################################

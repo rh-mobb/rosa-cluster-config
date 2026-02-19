@@ -11,7 +11,7 @@ defaults:
   clusterName: example-cluster
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
-  helmRepoUrl: https://rosa-hcp-dedicated-vpc.github.io/helm-repository/
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   plugin: true
   AWS_REGION: "us-east-1"
