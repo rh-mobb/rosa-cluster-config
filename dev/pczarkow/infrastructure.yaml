@@ -50,9 +50,9 @@ infrastructure:
         startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
   # web terminal operator
   - chart: web-terminal-operator
-  targetRevision: 1.0.0
-  namespace: openshift-operators
-  values:
+    targetRevision: 1.0.0
+    namespace: openshift-operators
+    values:
   # Compliance Operator - Provides compliance scanning and reporting
   - chart: compliance-operator
     targetRevision: 1.2.12
