@@ -1,0 +1,68 @@
+#################################################################
+# teamName used for argocd applicaiton names and namespace names.
+#################################################################
+teamName: cluster-config
+#################################################################
+# default Values for app-of-apps-infrastructure helm chart
+#################################################################
+defaults:
+  # argcod application defaults
+  clusterName: spoke-1
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  # Helm defaults
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  # Vault plugin defaults.
+  plugin: true
+  AWS_REGION: "ap-southeast-4"
+  AVP_TYPE: "awssecretsmanager"
+#################################################################
+# INFRASTRUCTURE Charts to be deployed.
+#################################################################
+infrastructure:
+  # EFS CSI Driver - Provides shared file storage
+  # Update roleArn and fileSystemId after Terraform creates EFS resources
+  - chart: cluster-efs
+    targetRevision: 0.4.14
+    namespace: openshift-cluster-csi-drivers
+    values:
+      roleArn: arn:aws:iam::808082629126:role/spoke-1-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
+      fileSystemId: fs-0015837396e03a7ba  # Update with actual EFS file system ID from Terraform outputs
+      helper-operator:
+        startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
+  # web terminal operator
+  - chart: web-terminal-operator
+    targetRevision: 1.0.0
+    namespace: openshift-operators
+    values:
+  # Compliance Operator - Provides compliance scanning and reporting
+  - chart: compliance-operator
+    targetRevision: 1.2.12
+    namespace: openshift-compliance
+    values:
+      helper-operator:
+        startingCSV: compliance-operator.v1.7.1
+
+  # Overprovisioning - Optimizes cluster resource utilization and costs
+  - chart: overprovisioning
+    targetRevision: 0.0.7
+    namespace: overprovisioning
+    values:
+
+  # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
+  # Update roleArn after Terraform creates CloudWatch IAM role
+  - chart: cluster-logging
+    targetRevision: 0.5.15
+    namespace: openshift-logging
+    values:
+      credentials: |
+        [default]
+        sts_regional_endpoints = regional
+        role_arn: arn:aws:iam::808082629126:role/spoke-1-rosa-cloudwatch-role-iam
+        web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
+      region: us-east-2  # Update if your cluster is in a different region
+      clustername: pczarkow
+      helper-operator:
+        startingCSV: cluster-logging.v6.4.0
+
