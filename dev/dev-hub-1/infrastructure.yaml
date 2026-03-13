@@ -24,7 +24,7 @@ infrastructure:
   # EFS CSI Driver - Provides shared file storage
   # Update roleArn and fileSystemId after Terraform creates EFS resources
   - chart: cluster-efs
-    targetRevision: 0.4.15
+    targetRevision: 0.4.14
     namespace: openshift-cluster-csi-drivers
     values:
       roleArn: arn:aws:iam::808082629126:role/dev-hub-1-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
@@ -68,7 +68,7 @@ infrastructure:
 
   # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
   - chart: acm-operator
-    targetRevision: 0.5.13
+    targetRevision: 0.5.14
     namespace: open-cluster-management
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
