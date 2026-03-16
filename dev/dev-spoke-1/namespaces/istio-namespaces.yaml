@@ -57,9 +57,9 @@ namespaces:
   groupname:
   resourceQuota:
     limits_cpu: "2"
-    limits_memory: "1Gi"
+    limits_memory: "2Gi"
     requests_cpu: "1"
-    requests_memory: "500Mi"
+    requests_memory: "2Gi"
     persistentvolumeclaims: "5"
     limits_ephemeral_storage: "4Gi"
     pods: "50"
