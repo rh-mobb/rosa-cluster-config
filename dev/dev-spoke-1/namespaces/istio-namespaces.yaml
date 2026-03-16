@@ -52,6 +52,8 @@ namespaces:
   annotations:
   labels:
     dynatrace: true
+    istio.io/dataplane-mode: ambient
+    istio-discovery: enabled
   groupname:
   resourceQuota:
     limits_cpu: "2"
