@@ -23,23 +23,12 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 ################################################################# 
 applications:
-  - name: payments
-    apmnum: "1234"
-    appserviceNumber: "5678"
-    gitopsCreate: true
-    gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/dev-spoke-1/namespaces/payments-1234.yaml
-    appProject:
-      adGroup: PFAUTHAD
-      repos:
-      - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
-      - 'https://github.com/rh-mobb/rosa-cluster-config.git'
-  - name: accounting
-    apmnum: "abcd"
-    appserviceNumber: "efgh"
+  - name: istio-team
+    apmnum: "istio"
+    appserviceNumber: "team"
     gitopsCreate: false
     gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/dev-spoke-1/namespaces/accounting-abcd.yaml
+    gitPath: dev/dev-spoke-1/namespaces/istio-namespaces.yaml
     appProject:
       adGroup: PFAUTHAD
       repos:

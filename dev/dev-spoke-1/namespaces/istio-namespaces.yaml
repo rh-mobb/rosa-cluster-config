@@ -48,29 +48,17 @@ defaults:
 # # NAMESPACE CREATION 
 # #################################################################
 namespaces:
-- name: accounting-ns-dev
+- name: istio-demo
   annotations:
   labels:
     dynatrace: true
   groupname:
   resourceQuota:
-    limits_cpu: "250m"
+    limits_cpu: "2"
     limits_memory: "1Gi"
-    requests_cpu: "200m"
+    requests_cpu: "1"
     requests_memory: "500Mi"
     persistentvolumeclaims: "5"
     limits_ephemeral_storage: "4Gi"
     pods: "50"
-- name: accounting-ns-test
-  annotations:
-  labels:
-    dynatrace: true
-  groupname:
-  resourceQuota:
-    limits_cpu: "250m"
-    limits_memory: "1Gi"
-    requests_cpu: "200m"
-    requests_memory: "500Mi"
-    persistentvolumeclaims: "5"
-    limits_ephemeral_storage: "4Gi"
-    pods: "50"
+

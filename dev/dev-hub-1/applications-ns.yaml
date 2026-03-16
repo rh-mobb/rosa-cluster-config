@@ -1,25 +1,22 @@
 #################################################################
-# teamName used for argocd applicaiton names and namespace names.
+# Values for app-of-apps-acm-team-onboarding chart
+# Configures team namespaces and ACM infrastructure on the hub
 #################################################################
-teamName: platform
+gitopsNamespace: application-gitops
+
 #################################################################
-# default Values for app-of-apps-infrastructure helm chart
+# Teams to be onboarded for ACM spoke deployment
 #################################################################
-defaults:
-  # argcod application defaults
-  clusterName: dev-hub-1
-  finalizers: resources-finalizer.argocd.argoproj.io
-  gitopsNamespace: openshift-gitops
-  # Helm defaults
-  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
-  path: charts
-  chart: app-of-apps-namespaces
-  targetRevision: 0.3.4
-  # Vault plugin defaults.
-  plugin: false
-  AWS_REGION: "ap-southeast-4"
-  AVP_TYPE: "awssecretsmanager"
-#################################################################
-# INFRASTRUCTURE Charts to be deployed.
-################################################################# 
 applications:
+  - name: istio-demo
+    apmnum: "istio"
+    appserviceNumber: "demo"
+    gitopsCreate: true
+    appProject:
+      adGroup: PFAUTHAD
+      repos:
+        - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
+        - 'https://github.com/rh-mobb/rosa-cluster-config.git'
+      spokeNamespaces:
+        - istio-system
+        - istio-demo
