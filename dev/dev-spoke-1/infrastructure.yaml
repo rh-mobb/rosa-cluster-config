@@ -50,6 +50,14 @@ infrastructure:
     namespace: overprovisioning
     values:
 
+  # Service Mesh 3 Operator
+  - chart: servicemesh-operator
+    targetRevision: 1.0.0
+    namespace: openshift-operators
+    values:
+      subscription:
+        startingCSV: servicemeshoperator3.v3.2.2
+
   # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
   # Update roleArn after Terraform creates CloudWatch IAM role
   - chart: cluster-logging
