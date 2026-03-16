@@ -32,6 +32,8 @@ applications:
     appProject:
       adGroup: PFAUTHAD
       repos:
-      - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
-      - 'https://github.com/rh-mobb/rosa-cluster-config.git'
+      - 'https://github.com/foster-rh/bookinfo.git'
+      destinations:
+      - namespace: istio-demo
+        server: 'https://kubernetes.default.svc'     
     
