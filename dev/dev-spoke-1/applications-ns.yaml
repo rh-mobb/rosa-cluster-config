@@ -23,10 +23,10 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 ################################################################# 
 applications:
-  - name: istio-team
+  - name: istio-demo
     apmnum: "istio"
-    appserviceNumber: "team"
-    gitopsCreate: false
+    appserviceNumber: "demo"
+    gitopsCreate: true
     gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
     gitPath: dev/dev-spoke-1/namespaces/istio-namespaces.yaml
     appProject:
