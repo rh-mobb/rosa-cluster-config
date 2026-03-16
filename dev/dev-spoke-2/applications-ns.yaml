@@ -14,7 +14,7 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   chart: app-of-apps-namespaces
-  targetRevision: 0.3.3
+  targetRevision: 1.5.5
   # Vault plugin defaults.
   plugin: false
   AWS_REGION: "ap-southeast-4"
