@@ -7,7 +7,7 @@ teamName: platform
 #################################################################
 defaults:
   # argcod application defaults
-  clusterName: dev-spoke-1
+  clusterName: dev-spoke-2
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
   # Helm defaults
@@ -28,7 +28,7 @@ applications:
     appserviceNumber: "demo"
     gitopsCreate: true
     gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/dev-spoke-1/namespaces/istio-namespaces.yaml
+    gitPath: dev/dev-spoke-2/namespaces/istio-namespaces.yaml
     appProject:
       adGroup: PFAUTHAD
       repos:

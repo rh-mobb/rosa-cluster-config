@@ -7,7 +7,7 @@ teamName: cluster-config
 #################################################################
 defaults:
   # argcod application defaults
-  clusterName: spoke-1
+  clusterName: spoke-2
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
   # Helm defaults
@@ -27,7 +27,7 @@ infrastructure:
     targetRevision: 0.4.14
     namespace: openshift-cluster-csi-drivers
     values:
-      roleArn: arn:aws:iam::808082629126:role/spoke-1-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
+      roleArn: arn:aws:iam::808082629126:role/spoke-2-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
       fileSystemId: fs-0015837396e03a7ba  # Update with actual EFS file system ID from Terraform outputs
       helper-operator:
         startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
@@ -67,7 +67,7 @@ infrastructure:
       credentials: |
         [default]
         sts_regional_endpoints = regional
-        role_arn: arn:aws:iam::808082629126:role/spoke-1-rosa-cloudwatch-role-iam
+        role_arn: arn:aws:iam::808082629126:role/spoke-2-rosa-cloudwatch-role-iam
         web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
       region: us-east-2  # Update if your cluster is in a different region
       clustername: pczarkow
