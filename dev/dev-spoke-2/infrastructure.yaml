@@ -58,6 +58,12 @@ infrastructure:
       subscription:
         startingCSV: servicemeshoperator3.v3.2.2
 
+  # Service Interconnect (Skupper v2) - Cross-cluster service connectivity
+  - chart: service-interconnect-operator
+    targetRevision: 1.0.0
+    namespace: openshift-operators
+    values:
+
   # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
   # Update roleArn after Terraform creates CloudWatch IAM role
   - chart: cluster-logging
