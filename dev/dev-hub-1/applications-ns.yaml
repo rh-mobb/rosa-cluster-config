@@ -17,6 +17,7 @@ applications:
       repos:
         - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
         - 'https://github.com/rh-mobb/rosa-cluster-config.git'
+        - 'https://github.com/foster-rh/bookinfo.git'
       spokeNamespaces:
         - istio-system
         - istio-demo
