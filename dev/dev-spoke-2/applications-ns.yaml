@@ -7,7 +7,7 @@ teamName: platform
 #################################################################
 defaults:
   # argcod application defaults
-  clusterName: dev-spoke-2
+  clusterName: dev-spoke-1
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
   # Helm defaults
@@ -23,26 +23,16 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 ################################################################# 
 applications:
-  - name: payments
-    apmnum: "1234"
-    appserviceNumber: "5678"
+  - name: istio-demo
+    apmnum: "istio"
+    appserviceNumber: "demo"
     gitopsCreate: true
     gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/dev-spoke-1/namespaces/payments-1234.yaml
+    gitPath: dev/dev-spoke-1/namespaces/istio-namespaces.yaml
     appProject:
       adGroup: PFAUTHAD
       repos:
-      - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
-      - 'https://github.com/rh-mobb/rosa-cluster-config.git'
-  - name: accounting
-    apmnum: "abcd"
-    appserviceNumber: "efgh"
-    gitopsCreate: false
-    gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/dev-spoke-1/namespaces/accounting-abcd.yaml
-    appProject:
-      adGroup: PFAUTHAD
-      repos:
-      - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
-      - 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    
+      - 'https://github.com/foster-rh/bookinfo.git'
+      destinations:
+      - namespace: istio-demo
+        server: 'https://kubernetes.default.svc'     
