@@ -52,7 +52,7 @@ infrastructure:
 
   # Service Mesh 3 Operator
   - chart: servicemesh-operator-ambient
-    targetRevision: 1.0.4
+    targetRevision: 1.1.0
     namespace: openshift-operators
     values:
       subscription:
@@ -60,7 +60,49 @@ infrastructure:
       gateway:
         enabled: true
         route:
+          enabled: false
+        connectivityLink:
           enabled: true
+          hostname: bookinfo.example.com
+          tls:
+            secretName: shared-app-gw-tls
+
+  # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
+  - chart: rhcl-operator
+    targetRevision: 1.0.0
+    namespace: kuadrant-system
+    values:
+      startingCSV: rhcl-operator.v1.2.1
+      kuadrant:
+        enabled: true
+      gatewayClass:
+        enabled: false
+
+  # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
+  - chart: external-secrets-operator
+    targetRevision: 1.0.0
+    namespace: external-secrets
+    values:
+      serviceAccount:
+        roleArn: ""  # from terraform-connectivity-link output: external_secrets_role_arns["dev-spoke-2"]
+      secretStore:
+        region: ap-southeast-4
+        secretName: connectivity-link-route53-credentials
+      target:
+        namespace: istio-system
+        secretName: aws-credentials
+
+  # Let's Encrypt ClusterIssuer - ACME DNS-01 via Route 53
+  - chart: letsencrypt-clusterissuer
+    targetRevision: 1.0.0
+    namespace: cert-manager
+    values:
+      name: letsencrypt-production
+      acme:
+        email: your-email@example.com
+      route53:
+        hostedZoneID: ""  # from terraform-connectivity-link output: hosted_zone_id
+        region: ap-southeast-4
 
   # Service Interconnect (Skupper v2) - Cross-cluster service connectivity
   - chart: service-interconnect-operator
