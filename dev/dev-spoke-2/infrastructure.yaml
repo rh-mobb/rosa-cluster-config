@@ -52,7 +52,7 @@ infrastructure:
 
   # Service Mesh 3 Operator
   - chart: servicemesh-operator-ambient
-    targetRevision: 1.0.2
+    targetRevision: 1.0.3
     namespace: openshift-operators
     values:
       subscription:
