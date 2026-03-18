@@ -52,11 +52,15 @@ infrastructure:
 
   # Service Mesh 3 Operator
   - chart: servicemesh-operator-ambient
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     namespace: openshift-operators
     values:
       subscription:
         startingCSV: servicemeshoperator3.v3.2.2
+      gateway:
+        enabled: true
+        route:
+          enabled: true
 
   # Service Interconnect (Skupper v2) - Cross-cluster service connectivity
   - chart: service-interconnect-operator
