@@ -56,10 +56,10 @@ namespaces:
     istio-discovery: enabled
   groupname:
   resourceQuota:
-    limits_cpu: "2"
-    limits_memory: "2Gi"
-    requests_cpu: "1"
-    requests_memory: "2Gi"
+    limits_cpu: "4"
+    limits_memory: "4Gi"
+    requests_cpu: "2"
+    requests_memory: "4Gi"
     persistentvolumeclaims: "5"
     limits_ephemeral_storage: "4Gi"
     pods: "50"
