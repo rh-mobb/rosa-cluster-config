@@ -63,7 +63,7 @@ infrastructure:
           enabled: true
         connectivityLink:
           enabled: true
-          hostname: bookinfo.spoke.domain.com
+          hostname: bookinfo.spoke-apac.mobb.cloud
           tls:
             secretName: shared-app-gw-tls
 
@@ -106,7 +106,7 @@ infrastructure:
       acme:
         email: pfoster@redhat.com
       route53:
-        hostedZoneID: Z104012330C3MB8FY05E2
+        hostedZoneID: Z0075233FFHL45JSZLT
         region: ap-southeast-4
 
   # Service Interconnect (Skupper v2) - Cross-cluster service connectivity
