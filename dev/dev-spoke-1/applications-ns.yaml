@@ -35,5 +35,7 @@ applications:
       - 'https://github.com/foster-rh/bookinfo.git'
       destinations:
       - namespace: istio-demo
-        server: 'https://kubernetes.default.svc'     
+        server: 'https://kubernetes.default.svc'
+      - namespace: istio-system
+        server: 'https://kubernetes.default.svc'
     
