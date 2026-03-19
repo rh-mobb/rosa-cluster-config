@@ -80,7 +80,7 @@ infrastructure:
 
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
   - chart: external-secrets-operator
-    targetRevision: 1.1.1
+    targetRevision: 1.1.2
     namespace: external-secrets-operator
     values:
       subscription:
