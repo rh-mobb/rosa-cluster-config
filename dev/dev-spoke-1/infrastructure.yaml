@@ -96,7 +96,7 @@ infrastructure:
 
   # cert-manager Operator + Let's Encrypt ClusterIssuer - ACME DNS-01 via Route 53
   - chart: letsencrypt-clusterissuer
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     namespace: cert-manager-operator
     values:
       name: letsencrypt-production
