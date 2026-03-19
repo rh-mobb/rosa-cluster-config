@@ -80,7 +80,7 @@ infrastructure:
 
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
   - chart: external-secrets-operator
-    targetRevision: 1.0.0
+    targetRevision: 1.0.1
     namespace: external-secrets
     values:
       subscription:
@@ -94,12 +94,15 @@ infrastructure:
         namespace: istio-system
         secretName: aws-credentials
 
-  # Let's Encrypt ClusterIssuer - ACME DNS-01 via Route 53
+  # cert-manager Operator + Let's Encrypt ClusterIssuer - ACME DNS-01 via Route 53
   - chart: letsencrypt-clusterissuer
-    targetRevision: 1.0.0
-    namespace: cert-manager
+    targetRevision: 1.0.1
+    namespace: cert-manager-operator
     values:
       name: letsencrypt-production
+      subscription:
+        startingCSV: cert-manager-operator.v1.18.1
+      certManagerRole: arn:aws:iam::808082629126:role/dev-spoke-2-rosa-cert-manager
       acme:
         email: pfoster@redhat.com
       route53:
