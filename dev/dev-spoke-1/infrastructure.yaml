@@ -133,3 +133,10 @@ infrastructure:
       helper-operator:
         startingCSV: cluster-logging.v6.4.0
 
+  # Network Observability Operator - Provides network traffic flow monitoring and visualization
+  - chart: network-observability-operator
+    targetRevision: 1.0.0
+    namespace: openshift-netobserv-operator
+    values:
+      subscription:
+        startingCSV: network-observability-operator.v1.11.0
