@@ -133,10 +133,36 @@ infrastructure:
       helper-operator:
         startingCSV: cluster-logging.v6.4.0
 
-  # Network Observability Operator - Provides network traffic flow monitoring and visualization
+  # Network Observability Operator - Provides network traffic flow monitoring with Loki storage
   - chart: network-observability-operator
-    targetRevision: 1.0.2
+    targetRevision: 2.0.0
     namespace: openshift-netobserv-operator
     values:
-      subscription:
-        startingCSV: network-observability-operator.v1.11.0
+      subscriptions:
+        - name: netobserv-operator
+          namespace: openshift-netobserv-operator
+          channel: stable
+          installPlanApproval: Manual
+          source: redhat-operators
+          sourceNamespace: openshift-marketplace
+          startingCSV: network-observability-operator.v1.11.0
+          enabled: true
+        - name: loki-operator
+          namespace: openshift-operators-redhat
+          channel: stable-6.2
+          installPlanApproval: Manual
+          source: redhat-operators
+          sourceNamespace: openshift-marketplace
+          startingCSV: loki-operator.v6.2.0
+          enabled: true
+          roleArn: "" # Update with Terraform output: loki_role_arns["dev-spoke-1"]
+      lokiStack:
+        enabled: true
+      externalSecret:
+        enabled: true
+        secretStore: connectivity-link-cluster-secret-store
+        remoteKey: dev-spoke-1-loki-netobserv-s3
+      objectStorage:
+        s3:
+          bucketName: dev-spoke-1-netobserv-loki
+          region: ap-southeast-4
