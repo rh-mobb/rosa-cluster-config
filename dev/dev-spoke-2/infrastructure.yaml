@@ -140,9 +140,25 @@ infrastructure:
     values:
       subscriptions:
         - name: netobserv-operator
+          namespace: openshift-netobserv-operator
+          channel: stable
+          installPlanApproval: Manual
+          source: redhat-operators
+          sourceNamespace: openshift-marketplace
           startingCSV: network-observability-operator.v1.11.0
+          enabled: true
+          createNamespace: true
+          createOperatorGroup: true
         - name: loki-operator
+          namespace: openshift-operators-redhat
+          channel: stable-6.2
+          installPlanApproval: Manual
+          source: redhat-operators
+          sourceNamespace: openshift-marketplace
           startingCSV: loki-operator.v6.2.0
+          enabled: true
+          createNamespace: true
+          createOperatorGroup: false
           roleArn: "" # Update with Terraform output: loki_role_arns["dev-spoke-2"]
       externalSecret:
         remoteKey: dev-spoke-2-loki-netobserv-s3
