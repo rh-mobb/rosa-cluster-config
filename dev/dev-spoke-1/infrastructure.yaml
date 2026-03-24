@@ -158,7 +158,7 @@ infrastructure:
           startingCSV: loki-operator.v6.2.0
           enabled: true
           createNamespace: true
-          createOperatorGroup: false
+          createOperatorGroup: true
           roleArn: "" # Update with Terraform output: loki_role_arns["dev-spoke-1"]
       externalSecret:
         remoteKey: dev-spoke-1-loki-netobserv-s3
