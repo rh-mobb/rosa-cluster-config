@@ -135,7 +135,7 @@ infrastructure:
 
   # Network Observability Operator - Provides network traffic flow monitoring with Loki storage
   - chart: network-observability-operator
-    targetRevision: 2.0.1
+    targetRevision: 2.0.2
     namespace: openshift-netobserv-operator
     values:
       subscriptions:
