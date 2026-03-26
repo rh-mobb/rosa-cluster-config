@@ -21,6 +21,9 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
 infrastructure:
+#################################################################
+# Standard Charts all clusters
+#################################################################
   # EFS CSI Driver - Provides shared file storage
   # Update roleArn and fileSystemId after Terraform creates EFS resources
   - chart: cluster-efs
@@ -43,41 +46,11 @@ infrastructure:
     values:
       helper-operator:
         startingCSV: compliance-operator.v1.7.1
-
   # Overprovisioning - Optimizes cluster resource utilization and costs
   - chart: overprovisioning
     targetRevision: 0.0.7
     namespace: overprovisioning
     values:
-
-  # Service Mesh 3 Operator
-  - chart: servicemesh-operator-ambient
-    targetRevision: 1.1.2
-    namespace: openshift-operators
-    values:
-      subscription:
-        startingCSV: servicemeshoperator3.v3.2.2
-      gateway:
-        enabled: true
-        route:
-          enabled: true
-        connectivityLink:
-          enabled: true
-          hostname: bookinfo.spoke.aws-apac.mobb.cloud
-          tls:
-            secretName: shared-app-gw-tls
-
-  # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
-  - chart: rhcl-operator
-    targetRevision: 1.0.0
-    namespace: kuadrant-system
-    values:
-      startingCSV: rhcl-operator.v1.2.1
-      kuadrant:
-        enabled: true
-      gatewayClass:
-        enabled: false
-
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
   - chart: external-secrets-operator
     targetRevision: 1.1.3
@@ -93,7 +66,26 @@ infrastructure:
       target:
         namespace: istio-system
         secretName: aws-credentials
-
+#################################################################
+# Application Workload plumbing
+#################################################################
+  # Service Mesh 3 Operator
+  - chart: servicemesh-operator-ambient
+    targetRevision: 1.2.0
+    namespace: openshift-operators
+    values:
+      subscription:
+        startingCSV: servicemeshoperator3.v3.2.2
+  # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
+  - chart: rhcl-operator
+    targetRevision: 1.0.0
+    namespace: kuadrant-system
+    values:
+      startingCSV: rhcl-operator.v1.2.1
+      kuadrant:
+        enabled: true
+      gatewayClass:
+        enabled: false
   # cert-manager Operator + Let's Encrypt ClusterIssuer - ACME DNS-01 via Route 53
   - chart: letsencrypt-clusterissuer
     targetRevision: 1.0.3
@@ -108,7 +100,6 @@ infrastructure:
       route53:
         hostedZoneID: Z05871522WJ8IFQA2N826
         region: ap-southeast-4
-
   # Service Interconnect (Skupper v2) - Cross-cluster service connectivity
   - chart: service-interconnect-operator
     targetRevision: 1.0.0
@@ -116,7 +107,9 @@ infrastructure:
     values:
       subscription:
         startingCSV: skupper-operator.v2.1.3-rh-1
-
+#################################################################
+# Monitoring and Alerting
+#################################################################
   # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
   # Update roleArn after Terraform creates CloudWatch IAM role
   - chart: cluster-logging
@@ -129,13 +122,13 @@ infrastructure:
         role_arn: arn:aws:iam::808082629126:role/spoke-2-rosa-cloudwatch-role-iam
         web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
       region: us-east-2  # Update if your cluster is in a different region
-      clustername: pczarkow
+      clustername: dev-spoke-2
       helper-operator:
         startingCSV: cluster-logging.v6.4.0
 
   # Network Observability Operator - Provides network traffic flow monitoring with Loki storage
   - chart: network-observability-operator
-    targetRevision: 2.1.1
+    targetRevision: 2.1.2
     namespace: openshift-netobserv-operator
     values:
       subscriptions:
