@@ -1,8 +1,10 @@
 #################################################################
-# Values for app-of-apps-acm-team-onboarding chart
-# Configures team namespaces and ACM infrastructure on the hub
+# Values for app-of-apps-application chart on the ACM hub
+# acmMode: hub skips creating Application payload namespaces
+# since spoke namespace management is handled by ACM
 #################################################################
 gitopsNamespace: application-gitops
+acmMode: hub
 
 #################################################################
 # Teams to be onboarded for ACM spoke deployment
