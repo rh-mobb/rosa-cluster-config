@@ -48,7 +48,7 @@ infrastructure:
         startingCSV: compliance-operator.v1.7.1
   # Overprovisioning - Optimizes cluster resource utilization and costs
   - chart: overprovisioning
-    targetRevision: 0.0.7
+    targetRevision: 0.0.9
     namespace: overprovisioning
     values:
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
@@ -128,7 +128,7 @@ infrastructure:
 
   # Network Observability Operator - Provides network traffic flow monitoring with Loki storage
   - chart: network-observability-operator
-    targetRevision: 2.1.2
+    targetRevision: 2.1.3
     namespace: openshift-netobserv-operator
     values:
       subscriptions:
