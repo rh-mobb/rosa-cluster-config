@@ -75,9 +75,10 @@ infrastructure:
     namespace: openshift-operators
     values:
       subscription:
-        startingCSV: servicemeshoperator3.v3.2.1
+        channel: stable-3.3
+        startingCSV: servicemeshoperator3.v3.3.1
       ambient:
-        version: v1.24.6
+        version: v1.26.8
       kiali:
         startingCSV: kiali-operator.v2.17.3
   # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
