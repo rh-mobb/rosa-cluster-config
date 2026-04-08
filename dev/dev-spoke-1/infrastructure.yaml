@@ -71,7 +71,7 @@ infrastructure:
 #################################################################
   # Service Mesh 3 Operator + Kiali
   - chart: servicemesh-operator-ambient
-    targetRevision: 1.3.1
+    targetRevision: 1.3.2
     namespace: openshift-operators
     values:
       subscription:
