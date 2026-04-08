@@ -76,6 +76,8 @@ infrastructure:
     values:
       subscription:
         startingCSV: servicemeshoperator3.v3.2.1
+      ambient:
+        version: v1.24.6
       kiali:
         enabled: true
         startingCSV: kiali-operator.v2.17.3
