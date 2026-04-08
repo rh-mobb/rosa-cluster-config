@@ -79,7 +79,6 @@ infrastructure:
       ambient:
         version: v1.24.6
       kiali:
-        enabled: true
         startingCSV: kiali-operator.v2.17.3
   # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
   - chart: rhcl-operator
