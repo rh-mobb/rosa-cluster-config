@@ -17,7 +17,7 @@ defaults:
   chart: namespaces
   targetRevision: 1.5.3
   # ecr role
-  #ecrUpdateRole: arn:aws:iam:::role/rosa-ecr-access-role
+  ecrUpdateRole:
   primary_owner: "pafosterredhat.com"
   zone: test
   # Must set annoataions even if you do not have anything undermneath it. These apply to the project
