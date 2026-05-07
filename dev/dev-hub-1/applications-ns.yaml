@@ -15,7 +15,7 @@ applications:
     appserviceNumber: "demo"
     gitopsCreate: true
     appProject:
-      adGroup: PFAUTHAD
+      adGroup: obt-foster
       repos:
         - 'https://rh-mobb.github.io/validated-pattern-helm-charts'
         - 'https://github.com/rh-mobb/rosa-cluster-config.git'
