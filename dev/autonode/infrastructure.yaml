@@ -1,0 +1,25 @@
+#################################################################
+# Infrastructure Configuration for AutoNode tech preview cluster
+#################################################################
+
+teamName: cluster-config
+
+defaults:
+  clusterName: autonode
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  plugin: true
+  AWS_REGION: "us-east-1"
+  AVP_TYPE: "awssecretsmanager"
+
+#################################################################
+# Infrastructure charts for AutoNode validation
+#################################################################
+infrastructure:
+  - chart: autonode
+    targetRevision: 0.1.0
+    namespace: default
+    values:
+      enabled: true
