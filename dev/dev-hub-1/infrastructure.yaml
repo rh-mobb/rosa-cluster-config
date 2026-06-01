@@ -68,7 +68,7 @@ infrastructure:
 
   # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
   - chart: acm-operator
-    targetRevision: 0.5.25
+    targetRevision: 0.5.26
     namespace: open-cluster-management
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
@@ -90,3 +90,11 @@ infrastructure:
         irsaRoleArn: arn:aws:iam::808082629126:role/dev-hub-1-acm-observability-thanos
       consoleLinks:
         domain: apps.rosa.dev-hub-1.1c5d.p3.openshiftapps.com
+
+  # OpenShift Virtualization - Provides VM workload support on ROSA
+  - chart: rosa-virtualization
+    targetRevision: 1.0.0
+    namespace: openshift-cnv
+    values:
+      subscription:
+        startingCSV: kubevirt-hyperconverged-operator.v4.17.0
