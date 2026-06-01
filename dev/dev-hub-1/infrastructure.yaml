@@ -68,13 +68,13 @@ infrastructure:
 
   # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
   - chart: acm-operator
-    targetRevision: 0.5.27
+    targetRevision: 0.5.29
     namespace: open-cluster-management
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
     values:
       helper-operator:
-        startingCSV: advanced-cluster-management.v2.14.1
+        startingCSV: advanced-cluster-management.v2.16.1
 
   # ACM Observability - Multi-cluster metrics with Thanos + S3
   # S3 bucket and IRSA role created by terraform in acm-observability/terraform
@@ -93,8 +93,8 @@ infrastructure:
 
   # OpenShift Virtualization - Provides VM workload support on ROSA
   - chart: rosa-virtualization
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     namespace: openshift-cnv
     values:
       subscription:
-        startingCSV: kubevirt-hyperconverged-operator.v4.17.0
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
