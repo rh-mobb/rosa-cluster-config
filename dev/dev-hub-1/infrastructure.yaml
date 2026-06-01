@@ -79,7 +79,7 @@ infrastructure:
   # ACM Observability - Multi-cluster metrics with Thanos + S3
   # S3 bucket and IRSA role created by terraform in acm-observability/terraform
   - chart: acm-observability
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     namespace: open-cluster-management-observability
     values:
       objectStorage:
