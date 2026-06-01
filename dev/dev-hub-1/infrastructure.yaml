@@ -75,3 +75,18 @@ infrastructure:
     values:
       helper-operator:
         startingCSV: advanced-cluster-management.v2.14.1
+
+  # ACM Observability - Multi-cluster metrics with Thanos + S3
+  # S3 bucket and IRSA role created by terraform in acm-observability/terraform
+  - chart: acm-observability
+    targetRevision: 0.1.0
+    namespace: open-cluster-management-observability
+    values:
+      objectStorage:
+        s3:
+          bucket: acm-observability-dev-hub-1
+          endpoint: s3.ap-southeast-4.amazonaws.com
+          region: ap-southeast-4
+        irsaRoleArn: arn:aws:iam::808082629126:role/dev-hub-1-acm-observability-thanos
+      consoleLinks:
+        domain: apps.rosa.dev-hub-1.1c5d.p3.openshiftapps.com
