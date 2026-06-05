@@ -68,13 +68,13 @@ infrastructure:
 
   # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
   - chart: acm-operator
-    targetRevision: 0.5.27
+    targetRevision: 0.5.29
     namespace: open-cluster-management
     annotations:
       argocd.argoproj.io/compare-options: IgnoreExtraneous
     values:
       helper-operator:
-        startingCSV: advanced-cluster-management.v2.14.1
+        startingCSV: advanced-cluster-management.v2.16.1
 
   # ACM Observability - Multi-cluster metrics with Thanos + S3
   # S3 bucket and IRSA role created by terraform in acm-observability/terraform
@@ -91,10 +91,25 @@ infrastructure:
       consoleLinks:
         domain: apps.rosa.dev-hub-1.1c5d.p3.openshiftapps.com
 
+  # Portworx Enterprise - Software-defined storage for containers
+  # IAM role ARN from terraform output: portworx_role_arn
+  - chart: portworx-operator
+    targetRevision: 0.1.0
+    namespace: portworx
+    values:
+      storageCluster:
+        iamRoleArn: arn:aws:iam::808082629126:role/dev-hub-1-rosa-portworx
+
   # OpenShift Virtualization - Provides VM workload support on ROSA
   - chart: rosa-virtualization
-    targetRevision: 1.0.1
+    targetRevision: 1.0.2
     namespace: openshift-cnv
     values:
       subscription:
-        startingCSV: kubevirt-hyperconverged-operator.v4.17.0
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
+
+  # Migration Toolkit for Virtualization (MTV) - VM migration to OpenShift Virtualization
+  - chart: mtv-operator
+    targetRevision: 0.1.0
+    namespace: openshift-mtv
+    values:
