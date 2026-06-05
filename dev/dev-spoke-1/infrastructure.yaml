@@ -152,7 +152,7 @@ infrastructure:
   # Portworx Enterprise - Software-defined storage for containers
   # IAM role ARN from terraform output: portworx_role_arn
   - chart: portworx-operator
-    targetRevision: 0.1.14
+    targetRevision: 0.2.0
     namespace: portworx
     values:
       storageCluster:
@@ -160,7 +160,7 @@ infrastructure:
         smallNode: true
         autopilot:
           enabled: true
-          prometheusUrl: "http://prometheus-operated.openshift-user-workload-monitoring.svc:9090"
+          prometheusUrl: "https://thanos-querier.openshift-monitoring.svc.cluster.local:9091"
 
   # OpenShift Virtualization - Provides VM workload support on ROSA
   - chart: rosa-virtualization
