@@ -106,9 +106,3 @@ infrastructure:
     values:
       subscription:
         startingCSV: kubevirt-hyperconverged-operator.v4.20.15
-
-  # Migration Toolkit for Virtualization (MTV) - VM migration to OpenShift Virtualization
-  - chart: mtv-operator
-    targetRevision: 0.1.0
-    namespace: openshift-mtv
-    values:
