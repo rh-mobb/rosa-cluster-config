@@ -149,3 +149,19 @@ infrastructure:
       objectStorage:
         s3:
           bucketName: dev-spoke-1-netobserv-loki
+  # Portworx Enterprise - Software-defined storage for containers
+  # IAM role ARN from terraform output: portworx_role_arn
+  - chart: portworx-operator
+    targetRevision: 0.1.0
+    namespace: portworx
+    values:
+      storageCluster:
+        iamRoleArn: arn:aws:iam::808082629126:role/dev-spoke-1-rosa-portworx
+
+  # OpenShift Virtualization - Provides VM workload support on ROSA
+  - chart: rosa-virtualization
+    targetRevision: 1.0.2
+    namespace: openshift-cnv
+    values:
+      subscription:
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
