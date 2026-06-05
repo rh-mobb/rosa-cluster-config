@@ -148,11 +148,12 @@ infrastructure:
   # Portworx Enterprise - Software-defined storage for containers
   # IAM role ARN from terraform output: portworx_role_arn
   - chart: portworx-operator
-    targetRevision: 0.1.4
+    targetRevision: 0.1.5
     namespace: portworx
     values:
       storageCluster:
         iamRoleArn: arn:aws:iam::808082629126:role/dev-spoke-2-rosa-portworx
+        smallNode: true
 
   # OpenShift Virtualization - Provides VM workload support on ROSA
   - chart: rosa-virtualization
