@@ -1,0 +1,20 @@
+#################################################################
+# Application Namespaces Configuration for AutoNode tech preview
+#################################################################
+
+teamName: platform
+
+defaults:
+  clusterName: autonode
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+  plugin: false
+  AWS_REGION: "us-east-1"
+  AVP_TYPE: "awssecretsmanager"
+
+# Keep application namespaces empty while AutoNode remains tech preview.
+applications: []
