@@ -93,7 +93,7 @@ infrastructure:
   # Portworx Enterprise - Software-defined storage for containers
   # IAM role ARN from terraform output: portworx_role_arn
   - chart: portworx-operator
-    targetRevision: 0.2.3
+    targetRevision: 0.2.4
     namespace: portworx
     values:
       storageCluster:
