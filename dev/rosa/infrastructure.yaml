@@ -156,7 +156,7 @@ infrastructure:
     namespace: portworx
     values:
       storageCluster:
-        iamRoleArn: arn:aws:iam::808082629126:role/dev-spoke-1-rosa-portworx
+        iamRoleArn: arn:aws:iam::808082629126:role/rosa-rosa-portworx
         smallNode: true
         autopilot:
           enabled: true
