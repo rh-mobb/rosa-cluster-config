@@ -151,3 +151,21 @@ infrastructure:
 #           bucketName: dev-spoke-1-netobserv-loki
   # Portworx Enterprise - Software-defined storage for containers
   # IAM role ARN from terraform output: portworx_role_arn
+  - chart: portworx-operator
+    targetRevision: 0.2.25
+    namespace: portworx
+    values:
+      storageCluster:
+        iamRoleArn: arn:aws:iam::808082629126:role/rosa-rosa-portworx
+        smallNode: true
+        autopilot:
+          enabled: true
+          prometheusUrl: "https://thanos-querier.openshift-monitoring.svc.cluster.local:9091"
+
+  # OpenShift Virtualization - Provides VM workload support on ROSA
+  - chart: rosa-virtualization
+    targetRevision: 1.0.2
+    namespace: openshift-cnv
+    values:
+      subscription:
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
