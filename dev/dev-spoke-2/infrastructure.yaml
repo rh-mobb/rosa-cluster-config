@@ -164,4 +164,4 @@ infrastructure:
     namespace: openshift-cnv
     values:
       subscription:
-        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
+        startingCSV: kubevirt-hyperconverged-operator.v4.21.10
