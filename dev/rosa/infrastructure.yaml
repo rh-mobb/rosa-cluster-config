@@ -45,7 +45,7 @@ infrastructure:
     namespace: openshift-compliance
     values:
       helper-operator:
-        startingCSV: compliance-operator.v1.7.1
+        startingCSV: compliance-operator.v1.9.1
   # Overprovisioning - Optimizes cluster resource utilization and costs
   - chart: overprovisioning
     targetRevision: 0.0.9
@@ -168,4 +168,4 @@ infrastructure:
     namespace: openshift-cnv
     values:
       subscription:
-        startingCSV: kubevirt-hyperconverged-operator.v4.21.10
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
