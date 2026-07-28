@@ -47,7 +47,7 @@ infrastructure:
       roleArn: arn:aws:iam::660250927410:role/pczarkow-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
       fileSystemId: fs-0015837396e03a7ba  # Update with actual EFS file system ID from Terraform outputs
       helper-operator:
-        startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
+        startingCSV: aws-efs-csi-driver-operator.v4.20.0-202607071454
   # web terminal operator
   - chart: web-terminal-operator
     targetRevision: 1.0.0
@@ -59,7 +59,7 @@ infrastructure:
     namespace: openshift-compliance
     values:
       helper-operator:
-        startingCSV: compliance-operator.v1.7.1
+        startingCSV: compliance-operator.v1.9.1
 
   # Overprovisioning - Optimizes cluster resource utilization and costs
   - chart: overprovisioning
@@ -81,7 +81,7 @@ infrastructure:
       region: us-east-2  # Update if your cluster is in a different region
       clustername: pczarkow
       helper-operator:
-        startingCSV: cluster-logging.v6.4.0
+        startingCSV: cluster-logging.v6.4.6
 
   # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
   # Uncomment if you need ACM for managing multiple clusters
@@ -92,7 +92,7 @@ infrastructure:
   #     argocd.argoproj.io/compare-options: IgnoreExtraneous
   #   values:
   #     helper-operator:
-  #       startingCSV: advanced-cluster-management.v2.14.1
+  #       startingCSV: advanced-cluster-management.v2.16.2
 
   # Optional: Red Hat Advanced Cluster Security (RHACS) - Security scanning and policy enforcement
   # Uncomment if you need RHACS for security scanning
@@ -101,4 +101,4 @@ infrastructure:
   #   namespace: rhacs-operator
   #   values:
   #     helper-operator:
-  #       startingCSV: rhacs-operator.v4.7.4
+  #       startingCSV: rhacs-operator.v4.11.1
