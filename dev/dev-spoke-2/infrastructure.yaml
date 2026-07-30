@@ -52,7 +52,7 @@ infrastructure:
     values:
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
 #   - chart: external-secrets-operator
-#     targetRevision: 1.1.3
+#     targetRevision: 1.1.4
 #     namespace: external-secrets-operator
 #     values:
 #       subscription:
