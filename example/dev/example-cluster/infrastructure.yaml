@@ -13,9 +13,8 @@ defaults:
   gitopsNamespace: openshift-gitops
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
-  plugin: true
+  plugin: false
   AWS_REGION: "us-east-1"
-  AVP_TYPE: "awssecretsmanager"
 
 infrastructure:
   # Example: EFS CSI driver
