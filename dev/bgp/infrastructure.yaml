@@ -1,0 +1,30 @@
+#################################################################
+# teamName used for argocd applicaiton names and namespace names.
+#################################################################
+teamName: cluster-config
+#################################################################
+# default Values for app-of-apps-infrastructure helm chart
+#################################################################
+defaults:
+  # argcod application defaults
+  clusterName: bgp
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  # Helm defaults
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  # Vault plugin defaults.
+  plugin: true
+  AWS_REGION: "ap-southeast-2"
+  AVP_TYPE: "awssecretsmanager"
+#################################################################
+# INFRASTRUCTURE Charts to be deployed.
+#################################################################
+infrastructure:
+  # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
+  - chart: rosa-virtualization
+    targetRevision: 1.0.2
+    namespace: openshift-cnv
+    values:
+      subscription:
+        startingCSV: kubevirt-hyperconverged-operator.v4.20.15
