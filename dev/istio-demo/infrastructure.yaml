@@ -14,9 +14,8 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   # Vault plugin defaults.
-  plugin: true
+  plugin: false
   AWS_REGION: "ap-southeast-4"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
@@ -53,13 +52,13 @@ infrastructure:
     values:
   # External Secrets Operator - Syncs AWS Secrets Manager to K8s Secrets
   # - chart: external-secrets-operator
-  #   targetRevision: 1.1.3
+  #   targetRevision: 1.1.4
   #   namespace: external-secrets-operator
   #   values:
   #     subscription:
   #       startingCSV: external-secrets-operator.v1.0.0
   #     serviceAccount:
-  #       roleArn: arn:aws:iam::808082629126:role/connectivity-link-eso-dev-spoke-1
+  #       roleArn: arn:aws:iam::808082629126:role/istio-demo-rosa-secretsmanager-role-iam
   #     secretStore:
   #       region: ap-southeast-4
   #       secretName: connectivity-link-route53-credentials

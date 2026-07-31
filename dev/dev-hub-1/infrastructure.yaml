@@ -14,9 +14,8 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   # Vault plugin defaults.
-  plugin: true
+  plugin: false
   AWS_REGION: "ap-southeast-4"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
