@@ -1,0 +1,40 @@
+#################################################################
+# teamName used for argocd applicaiton names and namespace names.
+#################################################################
+teamName: platform
+#################################################################
+# default Values for app-of-apps-namespaces helm chart
+#################################################################
+defaults:
+  # argcod application defaults
+  clusterName: bgp
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  # Helm defaults
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.5
+  # Vault plugin defaults.
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+  AVP_TYPE: "awssecretsmanager"
+#################################################################
+# NAMESPACE Charts to be deployed.
+#################################################################
+applications:
+  - name: bgp-cudn
+    apmnum: "bgp"
+    appserviceNumber: "cudn"
+    gitopsCreate: true
+    gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
+    gitPath: dev/bgp/namespaces/cudn-namespaces.yaml
+    appProject:
+      adGroup: PFAUTHAD
+      repos:
+      - 'https://github.com/rh-mobb/rosa-cluster-config.git'
+      destinations:
+      - namespace: cudn-prod
+        server: 'https://kubernetes.default.svc'
+      - namespace: cudn-dev
+        server: 'https://kubernetes.default.svc'

@@ -1,0 +1,53 @@
+apmnum: "bgp"
+#################################################################
+# default Values for namespaces helm chart
+#################################################################
+defaults:
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+  AVP_TYPE: "awssecretsmanager"
+  chart: namespaces
+  targetRevision: 1.5.3
+  primary_owner: "pafosterredhat.com"
+  zone: test
+  annotations:
+    comments: "CUDN BGP namespaces"
+    description: "namespaces for CUDN BGP routing"
+    display_name: "cudn-bgp"
+  labels:
+    domain: "Infrastruture_and_Cloud"
+    primary_owner: "pafosterredhat.com"
+    zone: test
+    quota: "resourcequota"
+    region: "NoNodeSelector"
+    ingress: customer-ingress
+    egressip: "0.0.0.1"
+  groupname:
+    admin_group: pa_admins
+  resourceQuota:
+  serviceAccount:
+    create: false
+
+#################################################################
+# NAMESPACE CREATION
+#################################################################
+namespaces:
+- name: cudn-prod
+  annotations:
+  labels:
+    k8s.ovn.org/primary-user-defined-network: ""
+    cluster-udn: prod
+  groupname:
+  resourceQuota:
+
+- name: cudn-dev
+  annotations:
+  labels:
+    k8s.ovn.org/primary-user-defined-network: ""
+    cluster-udn: dev
+  groupname:
+  resourceQuota:
