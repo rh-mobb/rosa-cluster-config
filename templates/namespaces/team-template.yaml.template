@@ -27,7 +27,7 @@ defaults:
 
   # Namespaces chart defaults
   chart: namespaces
-  targetRevision: 1.5.2
+  targetRevision: 1.5.5
 
   # Vault plugin defaults
   plugin: false

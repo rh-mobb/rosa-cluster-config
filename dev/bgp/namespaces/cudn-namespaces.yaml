@@ -11,7 +11,7 @@ defaults:
   AWS_REGION: "ap-southeast-2"
   AVP_TYPE: "awssecretsmanager"
   chart: namespaces
-  targetRevision: 1.5.4
+  targetRevision: 1.5.5
   primary_owner: "pafosterredhat.com"
   zone: test
   annotations:
