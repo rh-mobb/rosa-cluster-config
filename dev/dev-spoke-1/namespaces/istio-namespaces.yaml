@@ -14,7 +14,7 @@ defaults:
   AWS_REGION: "ap-southeast-2"
   # namespaces chart defaults
   chart: namespaces
-  targetRevision: 1.5.3
+  targetRevision: 1.5.5
   # ecr role
   ecrUpdateRole:
   primary_owner: "pafosterredhat.com"
