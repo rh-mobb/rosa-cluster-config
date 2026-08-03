@@ -28,3 +28,33 @@ infrastructure:
     values:
       subscription:
         startingCSV: kubevirt-hyperconverged-operator.v4.21.13
+
+  # CUDN BGP Routing Operator
+  - chart: cudn-bgp-routing-operator
+    targetRevision: 0.1.0
+    namespace: openshift-cudn-bgp-routing
+    values:
+      image:
+        repository: image-registry.openshift-image-registry.svc:5000/openshift-cudn-bgp-routing/operator
+        tag: dev
+      serviceAccount:
+        annotations:
+          eks.amazonaws.com/role-arn: "arn:aws:iam::808082629126:role/bgp-cudn-bgp-operator"
+      cudnBgpConfig:
+        enabled: true
+        localASN: 65001
+        aws:
+          region: ap-southeast-2
+          routeServerIDs:
+            - rs-0a520fd4c812ac997
+      cudnBgpRoutings:
+        - name: cudn1
+          network:
+            name: prod
+            subnets:
+              - 10.100.0.0/16
+        - name: cudn2
+          network:
+            name: dev
+            subnets:
+              - 10.200.0.0/16
