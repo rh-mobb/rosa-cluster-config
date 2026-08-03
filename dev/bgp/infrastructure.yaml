@@ -31,7 +31,7 @@ infrastructure:
 
   # CUDN BGP Routing Operator
   - chart: cudn-bgp-routing-operator
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: openshift-cudn-bgp-routing
     values:
       image:
