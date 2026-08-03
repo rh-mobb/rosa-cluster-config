@@ -29,6 +29,13 @@ defaults:
   groupname:
     admin_group: pa_admins
   resourceQuota:
+    limits_cpu: "4"
+    limits_memory: "4Gi"
+    requests_cpu: "2"
+    requests_memory: "4Gi"
+    persistentvolumeclaims: "5"
+    limits_ephemeral_storage: "4Gi"
+    pods: "50"
   serviceAccount:
     create: false
 
@@ -43,6 +50,13 @@ namespaces:
     cluster-udn: prod
   groupname:
   resourceQuota:
+    limits_cpu: "4"
+    limits_memory: "4Gi"
+    requests_cpu: "2"
+    requests_memory: "4Gi"
+    persistentvolumeclaims: "5"
+    limits_ephemeral_storage: "4Gi"
+    pods: "50"
 
 - name: cudn-dev
   annotations:
@@ -51,3 +65,10 @@ namespaces:
     cluster-udn: dev
   groupname:
   resourceQuota:
+    limits_cpu: "4"
+    limits_memory: "4Gi"
+    requests_cpu: "2"
+    requests_memory: "4Gi"
+    persistentvolumeclaims: "5"
+    limits_ephemeral_storage: "4Gi"
+    pods: "50"
