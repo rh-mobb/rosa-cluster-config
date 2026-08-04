@@ -14,7 +14,8 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   # Vault plugin defaults.
-  plugin: true
+  # Native Helm + ESO (AVP CMP sidecar not deployed on bootstrap — see #43)
+  plugin: false
   AWS_REGION: "ap-southeast-2"
   AVP_TYPE: "awssecretsmanager"
 #################################################################
