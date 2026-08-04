@@ -46,7 +46,7 @@ infrastructure:
         aws:
           region: ap-southeast-2
           routeServerIDs:
-            - rs-0a520fd4c812ac997
+            - rs-00a78e27ca050d1f0
       cudnBgpRoutings:
         - name: cudn1
           network:
