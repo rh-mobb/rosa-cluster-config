@@ -76,11 +76,11 @@ infrastructure:
 #     values:
 #       subscription:
 #         channel: stable-3.3
-#         startingCSV: servicemeshoperator3.v3.4.0
+#         startingCSV: servicemeshoperator3.v3.3.6
 #       ambient:
 #         version: v1.26-latest
 #       kiali:
-#         startingCSV: kiali-operator.v2.27.1
+#         startingCSV: kiali-operator.v2.27.2
 #   # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
 #   - chart: rhcl-operator
 #     targetRevision: 1.0.0
@@ -158,8 +158,8 @@ infrastructure:
     values:
       subscription:
         channel: stable-3.3
-        startingCSV: servicemeshoperator3.v3.4.0
+        startingCSV: servicemeshoperator3.v3.3.6
       ambient:
         version: v1.26-latest
       kiali:
-        startingCSV: kiali-operator.v2.27.1
+        startingCSV: kiali-operator.v2.27.2
