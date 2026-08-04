@@ -74,7 +74,7 @@ infrastructure:
 #     namespace: openshift-operators
 #     values:
 #       subscription:
-#         startingCSV: servicemeshoperator3.v3.4.0
+#         startingCSV: servicemeshoperator3.v3.3.6
 #   # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
 #   - chart: rhcl-operator
 #     targetRevision: 1.0.0
