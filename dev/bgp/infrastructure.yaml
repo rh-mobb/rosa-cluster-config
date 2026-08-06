@@ -25,7 +25,7 @@ infrastructure:
   # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (no account ARN in git).
   # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
   - chart: external-secrets-operator
-    targetRevision: 1.1.5
+    targetRevision: 1.1.6
     namespace: external-secrets-operator
     values:
       platformMetadata:
@@ -48,7 +48,7 @@ infrastructure:
 
   # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
   - chart: cudn-bgp-routing-operator
-    targetRevision: 0.1.4
+    targetRevision: 0.1.5
     namespace: openshift-cudn-bgp-routing
     values:
       image:
