@@ -23,7 +23,18 @@ infrastructure:
         enabled: true
       profile: rhaii
       components:
+        dashboard:
+          dsc:
+            managementState: Managed
+        workbenches:
+          dsc:
+            managementState: Managed
+        aipipelines:
+          dsc:
+            managementState: Managed
         kserve:
+          dsc:
+            managementState: Managed
           gateway:
             spec:
               listeners:
@@ -33,3 +44,21 @@ infrastructure:
                   allowedRoutes:
                     namespaces:
                       from: Selector
+        kueue:
+          dsc:
+            managementState: Managed
+        ray:
+          dsc:
+            managementState: Managed
+        modelregistry:
+          dsc:
+            managementState: Managed
+        trustyai:
+          dsc:
+            managementState: Managed
+        trainingoperator:
+          dsc:
+            managementState: Managed
+        trainer:
+          dsc:
+            managementState: Managed
