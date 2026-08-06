@@ -46,7 +46,7 @@ infrastructure:
                       from: Selector
         kueue:
           dsc:
-            managementState: Managed
+            managementState: Unmanaged
         ray:
           dsc:
             managementState: Managed
