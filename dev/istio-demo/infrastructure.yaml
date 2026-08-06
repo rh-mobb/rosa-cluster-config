@@ -75,8 +75,8 @@ infrastructure:
 #     namespace: openshift-operators
 #     values:
 #       subscription:
-#         channel: stable-3.3
-#         startingCSV: servicemeshoperator3.v3.3.6
+#         channel: stable-3.4
+#         startingCSV: servicemeshoperator3.v3.4.1
 #       ambient:
 #         version: v1.26-latest
 #       kiali:
@@ -157,8 +157,8 @@ infrastructure:
     namespace: openshift-operators
     values:
       subscription:
-        channel: stable-3.3
-        startingCSV: servicemeshoperator3.v3.3.6
+        channel: stable-3.4
+        startingCSV: servicemeshoperator3.v3.4.1
       ambient:
         version: v1.26-latest
       kiali:

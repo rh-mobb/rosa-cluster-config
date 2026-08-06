@@ -1,0 +1,25 @@
+teamName: cluster-config
+
+defaults:
+  clusterName: rhai
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+  AVP_TYPE: "awssecretsmanager"
+
+infrastructure:
+  - chart: rhai-on-openshift-chart
+    gitRepoUrl: https://github.com/opendatahub-io/odh-gitops.git
+    targetRevision: main
+    path: charts/rhai-on-openshift-chart
+    namespace: redhat-ods-operator
+    values:
+      global:
+        skipCrdCheck: true
+      operator:
+        type: rhoai
+        enabled: true
+      profile: rhaii
