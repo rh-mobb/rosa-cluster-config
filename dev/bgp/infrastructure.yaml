@@ -22,6 +22,22 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
 infrastructure:
+  # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (no account ARN in git).
+  # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
+  - chart: external-secrets-operator
+    targetRevision: 1.1.5
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+        region: ap-southeast-2
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
   # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
   - chart: rosa-virtualization
     targetRevision: 1.0.2
@@ -30,24 +46,30 @@ infrastructure:
       subscription:
         startingCSV: kubevirt-hyperconverged-operator.v4.21.13
 
-  # CUDN BGP Routing Operator
+  # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
   - chart: cudn-bgp-routing-operator
-    targetRevision: 0.1.1
+    targetRevision: 0.1.4
     namespace: openshift-cudn-bgp-routing
     values:
       image:
         repository: image-registry.openshift-image-registry.svc:5000/openshift-cudn-bgp-routing/operator
         tag: dev
-      serviceAccount:
-        annotations:
-          eks.amazonaws.com/role-arn: "arn:aws:iam::808082629126:role/bgp-cudn-bgp-operator"
+      buildOperator:
+        enabled: true
+        git:
+          # Temporary: paulczar fork until jingczhang/rosa-bgp-operator#8 merges
+          # (greenfield FRR/RA watch chicken-egg fix; issue #7).
+          uri: https://github.com/paulczar/rosa-bgp-operator.git
+          ref: fix/network-operator-crd-chicken-egg
+      externalSecret:
+        enabled: true
+        # remoteKey omitted — Job uses bgpConfigSecretName from rosa-platform-metadata
+        secretStore: aws-secrets-manager
+        platformMetadata:
+          enabled: true
       cudnBgpConfig:
         enabled: true
         localASN: 65001
-        aws:
-          region: ap-southeast-2
-          routeServerIDs:
-            - rs-00a78e27ca050d1f0
       cudnBgpRoutings:
         - name: cudn1
           network:
