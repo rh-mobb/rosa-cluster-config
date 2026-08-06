@@ -17,8 +17,7 @@ infrastructure:
     path: charts/rhai-on-openshift-chart
     namespace: redhat-ods-operator
     values:
-      global:
-        skipCrdCheck: true
+      skipCrdCheck: true
       operator:
         type: rhoai
         enabled: true
