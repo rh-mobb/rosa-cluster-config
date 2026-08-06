@@ -1,0 +1,15 @@
+teamName: platform
+
+defaults:
+  clusterName: rhai
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+  AVP_TYPE: "awssecretsmanager"
+
+applications: []
