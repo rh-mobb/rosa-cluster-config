@@ -22,3 +22,14 @@ infrastructure:
         type: rhoai
         enabled: true
       profile: rhaii
+      components:
+        kserve:
+          gateway:
+            spec:
+              listeners:
+                - name: https
+                  port: 443
+                  protocol: HTTPS
+                  allowedRoutes:
+                    namespaces:
+                      from: Selector
