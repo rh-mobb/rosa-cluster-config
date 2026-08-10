@@ -62,3 +62,15 @@ infrastructure:
         trainer:
           dsc:
             managementState: Managed
+        feastoperator:
+          dsc:
+            managementState: Managed
+        aigateway:
+          dsc:
+            managementState: Managed
+        ogx:
+          dsc:
+            managementState: Managed
+        mlflowoperator:
+          dsc:
+            managementState: Managed
