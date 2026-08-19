@@ -35,6 +35,8 @@ infrastructure:
         kserve:
           dsc:
             managementState: Managed
+            nim:
+              managementState: Managed
           gateway:
             spec:
               listeners:
