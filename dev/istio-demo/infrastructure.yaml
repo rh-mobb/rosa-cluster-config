@@ -78,7 +78,7 @@ infrastructure:
 #         channel: stable-3.4
 #         startingCSV: servicemeshoperator3.v3.4.1
 #       ambient:
-#         version: v1.26-latest
+#         version: v1.30-latest
 #       kiali:
 #         startingCSV: kiali-operator.v2.27.2
 #   # Red Hat Connectivity Link (Kuadrant) - DNS-based traffic management
@@ -160,6 +160,6 @@ infrastructure:
         channel: stable-3.4
         startingCSV: servicemeshoperator3.v3.4.1
       ambient:
-        version: v1.26-latest
+        version: v1.30-latest
       kiali:
         startingCSV: kiali-operator.v2.27.2
