@@ -59,7 +59,7 @@ infrastructure: []
 #       roleArn: arn:aws:iam::ACCOUNT_ID:role/CLUSTER_NAME-rosa-efs-csi-role-iam
 #       fileSystemId: fs-XXXXXXXXXXXXX
 #       helper-operator:
-#         startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
+#         startingCSV: aws-efs-csi-driver-operator.v4.21.0-202608120811
 #
 #   - chart: compliance-operator
 #     targetRevision: 1.2.10

@@ -32,7 +32,7 @@ infrastructure:
   #     roleArn: arn:aws:iam::808082629126:role/spoke-2-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
   #     fileSystemId: fs-0015837396e03a7ba  # Update with actual EFS file system ID from Terraform outputs
   #     helper-operator:
-  #       startingCSV: aws-efs-csi-driver-operator.v4.20.0-202607071454
+  #       startingCSV: aws-efs-csi-driver-operator.v4.21.0-202608120811
   # web terminal operator
   - chart: web-terminal-operator
     targetRevision: 1.0.0

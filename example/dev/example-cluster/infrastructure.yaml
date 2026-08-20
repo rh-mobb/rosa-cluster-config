@@ -26,4 +26,4 @@ infrastructure:
   #     roleArn: arn:aws:iam::123456789012:role/example-cluster-rosa-efs-csi-role-iam
   #     fileSystemId: fs-0123456789abcdef0
   #     helper-operator:
-  #       startingCSV: aws-efs-csi-driver-operator.v4.20.0-202511040554
+  #       startingCSV: aws-efs-csi-driver-operator.v4.21.0-202608120811
