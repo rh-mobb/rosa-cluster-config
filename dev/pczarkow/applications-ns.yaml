@@ -30,7 +30,6 @@ defaults:
   # Vault plugin defaults
   plugin: false
   AWS_REGION: "us-east-2"  # Update if your cluster is in a different region
-  AVP_TYPE: "awssecretsmanager"
 
 #################################################################
 # APPLICATION Teams/Namespaces to be deployed.

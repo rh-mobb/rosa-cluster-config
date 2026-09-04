@@ -16,7 +16,6 @@ defaults:
   targetRevision: 0.3.3
   plugin: false
   AWS_REGION: "us-east-1"
-  AVP_TYPE: "awssecretsmanager"
 
 applications: []
 # Example: Add application teams here
