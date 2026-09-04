@@ -14,9 +14,8 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   # Vault plugin defaults.
-  # Native Helm + ESO (AVP CMP sidecar not deployed on bootstrap — see #43)
-  plugin: false
-  AWS_REGION: "ap-southeast-2"
+  plugin: true
+  AWS_REGION: "ap-southeast-1"
   AVP_TYPE: "awssecretsmanager"
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
@@ -68,6 +67,10 @@ infrastructure:
       cudnBgpConfig:
         enabled: true
         localASN: 65001
+        aws:
+          region: ap-southeast-1
+          routeServerIDs:
+            - rs-0c562f7bd6d69ae4c
       cudnBgpRoutings:
         - name: cudn1
           network:
