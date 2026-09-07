@@ -37,7 +37,7 @@ infrastructure:
   # EFS CSI — RWX for OpenShift Virtualization live migration / shared VM disks
   # roleArn + fileSystemId from bootstrap ConfigMap rosa-platform-metadata
   - chart: cluster-efs
-    targetRevision: 0.5.0
+    targetRevision: 0.5.1
     namespace: openshift-cluster-csi-drivers
     values:
       platformMetadata:
