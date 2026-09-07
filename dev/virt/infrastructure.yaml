@@ -13,11 +13,8 @@ defaults:
   # Helm defaults
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
-  # Vault plugin defaults.
-  # Native Helm + ESO (AVP CMP sidecar not deployed on bootstrap — see #43)
+  # Native Helm (AVP plugin path is unused)
   plugin: false
-  AWS_REGION: "ap-southeast-2"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
@@ -25,14 +22,13 @@ infrastructure:
   # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (no account ARN in git).
   # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
   - chart: external-secrets-operator
-    targetRevision: 1.1.6
+    targetRevision: 1.1.7
     namespace: external-secrets-operator
     values:
       platformMetadata:
         enabled: true
       secretStore:
         name: aws-secrets-manager
-        region: ap-southeast-2
       target:
         enabled: false
       helper-status-checker:

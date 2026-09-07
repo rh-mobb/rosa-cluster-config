@@ -15,10 +15,7 @@ defaults:
   path: charts
   chart: app-of-apps-namespaces
   targetRevision: 0.3.6
-  # Vault plugin defaults.
   plugin: false
-  AWS_REGION: "ap-southeast-2"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # NAMESPACE Charts to be deployed.
 #################################################################
