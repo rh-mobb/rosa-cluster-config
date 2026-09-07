@@ -7,7 +7,7 @@ teamName: platform
 #################################################################
 defaults:
   # argcod application defaults
-  clusterName: bgp
+  clusterName: virt
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
   # Helm defaults
@@ -15,20 +15,17 @@ defaults:
   path: charts
   chart: app-of-apps-namespaces
   targetRevision: 0.3.6
-  # Vault plugin defaults.
   plugin: false
-  AWS_REGION: "ap-southeast-2"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # NAMESPACE Charts to be deployed.
 #################################################################
 applications:
-  - name: bgp-cudn
-    apmnum: "bgp"
+  - name: virt-cudn
+    apmnum: "virt"
     appserviceNumber: "cudn"
     gitopsCreate: true
     gitRepoUrl: 'https://github.com/rh-mobb/rosa-cluster-config.git'
-    gitPath: dev/bgp/namespaces/cudn-namespaces.yaml
+    gitPath: dev/virt/namespaces/cudn-namespaces.yaml
     appProject:
       adGroup: PFAUTHAD
       repos:

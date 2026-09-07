@@ -1,4 +1,4 @@
-apmnum: "bgp"
+apmnum: "virt"
 #################################################################
 # default Values for namespaces helm chart
 #################################################################
@@ -8,8 +8,6 @@ defaults:
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
   plugin: false
-  AWS_REGION: "ap-southeast-2"
-  AVP_TYPE: "awssecretsmanager"
   chart: namespaces
   targetRevision: 1.5.5
   primary_owner: "pafosterredhat.com"

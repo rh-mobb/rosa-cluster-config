@@ -7,16 +7,14 @@ teamName: cluster-config
 #################################################################
 defaults:
   # argcod application defaults
-  clusterName: bgp
+  clusterName: virt
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
   # Helm defaults
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
-  # Vault plugin defaults.
+  # Native Helm (AVP plugin path is unused)
   plugin: false
-  AWS_REGION: "ap-southeast-1"
-  AVP_TYPE: "awssecretsmanager"
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
@@ -24,17 +22,25 @@ infrastructure:
   # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (no account ARN in git).
   # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
   - chart: external-secrets-operator
-    targetRevision: 1.1.6
+    targetRevision: 1.1.7
     namespace: external-secrets-operator
     values:
       platformMetadata:
         enabled: true
       secretStore:
         name: aws-secrets-manager
-        region: ap-southeast-1
       target:
         enabled: false
       helper-status-checker:
+        enabled: true
+
+  # EFS CSI — RWX for OpenShift Virtualization live migration / shared VM disks
+  # roleArn + fileSystemId from bootstrap ConfigMap rosa-platform-metadata
+  - chart: cluster-efs
+    targetRevision: 0.5.0
+    namespace: openshift-cluster-csi-drivers
+    values:
+      platformMetadata:
         enabled: true
 
   # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
@@ -66,7 +72,7 @@ infrastructure:
           enabled: true
       cudnBgpConfig:
         enabled: true
-        localASN: 65004
+        localASN: 65001
       cudnBgpRoutings:
         - name: cudn1
           network:
