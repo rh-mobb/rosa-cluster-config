@@ -45,11 +45,20 @@ infrastructure:
 
   # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
   - chart: rosa-virtualization
-    targetRevision: 1.0.2
+    targetRevision: 1.0.3
     namespace: openshift-cnv
     values:
       subscription:
         startingCSV: kubevirt-hyperconverged-operator.v4.21.16
+      hyperConverged:
+        resourceRequirements:
+          storageWorkloads:
+            limits:
+              memory: 4Gi
+              cpu: "2"
+            requests:
+              memory: 1Gi
+              cpu: "500m"
 
   # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
   - chart: cudn-bgp-routing-operator
