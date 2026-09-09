@@ -1,0 +1,80 @@
+#################################################################
+# teamName used for argocd applicaiton names and namespace names.
+#################################################################
+teamName: cluster-config
+#################################################################
+# default Values for app-of-apps-infrastructure helm chart
+#################################################################
+defaults:
+  # argcod application defaults
+  clusterName: bgp
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  # Helm defaults
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  # Vault plugin defaults.
+  plugin: false
+  AWS_REGION: "ap-southeast-1"
+  AVP_TYPE: "awssecretsmanager"
+#################################################################
+# INFRASTRUCTURE Charts to be deployed.
+#################################################################
+infrastructure:
+  # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (no account ARN in git).
+  # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
+  - chart: external-secrets-operator
+    targetRevision: 1.1.6
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+        region: ap-southeast-1
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
+  # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
+  - chart: rosa-virtualization
+    targetRevision: 1.0.2
+    namespace: openshift-cnv
+    values:
+      subscription:
+        startingCSV: kubevirt-hyperconverged-operator.v4.21.16
+
+  # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
+  - chart: cudn-bgp-routing-operator
+    targetRevision: 0.1.6
+    namespace: openshift-cudn-bgp-routing
+    values:
+      image:
+        repository: image-registry.openshift-image-registry.svc:5000/openshift-cudn-bgp-routing/operator
+        tag: dev
+      buildOperator:
+        enabled: true
+        git:
+          uri: https://github.com/openshift/bgp-cloud-connector.git
+          ref: main
+      externalSecret:
+        enabled: true
+        # remoteKey omitted — Job uses bgpConfigSecretName from rosa-platform-metadata
+        secretStore: aws-secrets-manager
+        platformMetadata:
+          enabled: true
+      cudnBgpConfig:
+        enabled: true
+        localASN: 65004
+      cudnBgpRoutings:
+        - name: cudn1
+          network:
+            name: prod
+            subnets:
+              - 10.100.0.0/16
+        - name: cudn2
+          network:
+            name: dev
+            subnets:
+              - 10.200.0.0/16
