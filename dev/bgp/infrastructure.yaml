@@ -39,42 +39,42 @@ infrastructure:
 
   # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
   - chart: rosa-virtualization
-    targetRevision: 1.0.2
+    targetRevision: 1.0.3
     namespace: openshift-cnv
     values:
       subscription:
         startingCSV: kubevirt-hyperconverged-operator.v4.21.16
 
-  # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
-  - chart: cudn-bgp-routing-operator
-    targetRevision: 0.1.6
-    namespace: openshift-cudn-bgp-routing
-    values:
-      image:
-        repository: image-registry.openshift-image-registry.svc:5000/openshift-cudn-bgp-routing/operator
-        tag: dev
-      buildOperator:
-        enabled: true
-        git:
-          uri: https://github.com/openshift/bgp-cloud-connector.git
-          ref: main
-      externalSecret:
-        enabled: true
-        # remoteKey omitted — Job uses bgpConfigSecretName from rosa-platform-metadata
-        secretStore: aws-secrets-manager
-        platformMetadata:
-          enabled: true
-      cudnBgpConfig:
-        enabled: true
-        localASN: 65004
-      cudnBgpRoutings:
-        - name: cudn1
-          network:
-            name: prod
-            subnets:
-              - 10.100.0.0/16
-        - name: cudn2
-          network:
-            name: dev
-            subnets:
-              - 10.200.0.0/16
+  # # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
+  # - chart: cudn-bgp-routing-operator
+  #   targetRevision: 0.1.6
+  #   namespace: openshift-cudn-bgp-routing
+  #   values:
+  #     image:
+  #       repository: image-registry.openshift-image-registry.svc:5000/openshift-cudn-bgp-routing/operator
+  #       tag: dev
+  #     buildOperator:
+  #       enabled: true
+  #       git:
+  #         uri: https://github.com/openshift/bgp-cloud-connector.git
+  #         ref: main
+  #     externalSecret:
+  #       enabled: true
+  #       # remoteKey omitted — Job uses bgpConfigSecretName from rosa-platform-metadata
+  #       secretStore: aws-secrets-manager
+  #       platformMetadata:
+  #         enabled: true
+  #     cudnBgpConfig:
+  #       enabled: true
+  #       localASN: 65004
+  #     cudnBgpRoutings:
+  #       - name: cudn1
+  #         network:
+  #           name: prod
+  #           subnets:
+  #             - 10.100.0.0/16
+  #       - name: cudn2
+  #         network:
+  #           name: dev
+  #           subnets:
+  #             - 10.200.0.0/16
