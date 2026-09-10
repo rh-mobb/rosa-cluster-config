@@ -62,7 +62,7 @@ infrastructure:
 
   # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
   - chart: cudn-bgp-routing-operator
-    targetRevision: 0.1.6
+    targetRevision: 0.1.7
     namespace: openshift-cudn-bgp-routing
     values:
       image:
@@ -72,7 +72,7 @@ infrastructure:
         enabled: true
         git:
           uri: https://github.com/openshift/bgp-cloud-connector.git
-          ref: main
+          ref: 3a5e691e3386683de84b1bf660df8cab5185f2f0
       externalSecret:
         enabled: true
         # remoteKey omitted — Job uses bgpConfigSecretName from rosa-platform-metadata
