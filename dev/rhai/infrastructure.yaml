@@ -88,9 +88,6 @@ infrastructure:
         mlflowoperator:
           dsc:
             managementState: Managed
-        llamastackoperator:
-          dsc:
-            managementState: Removed
       dependencies:
         rhcl:
           config:
