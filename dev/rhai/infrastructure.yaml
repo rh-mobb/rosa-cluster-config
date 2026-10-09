@@ -145,7 +145,7 @@ infrastructure:
         enabled: true
 
   - chart: maas-postgres
-    targetRevision: 0.1.1
+    targetRevision: 0.1.2
     namespace: redhat-ods-applications
     values:
       image:
