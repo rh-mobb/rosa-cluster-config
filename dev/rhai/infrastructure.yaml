@@ -76,13 +76,3 @@ infrastructure:
         mlflowoperator:
           dsc:
             managementState: Managed
-
-  - chart: nvidia-gpu-operator
-    targetRevision: 0.3.0
-    namespace: nvidia-gpu-operator
-    values:
-      operatorChannel: v25.3
-      clusterPolicy:
-        enabled: true
-      helper-status-checker:
-        approver: true
