@@ -77,13 +77,6 @@ infrastructure:
           dsc:
             managementState: Managed
 
-  - chart: nfd-operator
-    targetRevision: 0.4.0
-    namespace: openshift-nfd
-    values:
-      helper-status-checker:
-        approver: true
-
   - chart: nvidia-gpu-operator
     targetRevision: 0.3.0
     namespace: nvidia-gpu-operator
