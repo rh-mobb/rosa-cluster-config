@@ -70,9 +70,83 @@ infrastructure:
         aigateway:
           dsc:
             managementState: Managed
+            modelsAsAService:
+              managementState: Managed
+          modelsAsAService:
+            gateway:
+              spec:
+                listeners:
+                  - name: https
+                    port: 443
+                    protocol: HTTPS
+                    allowedRoutes:
+                      namespaces:
+                        from: Selector
         ogx:
           dsc:
             managementState: Managed
         mlflowoperator:
           dsc:
             managementState: Managed
+        llamastackoperator:
+          dsc:
+            managementState: Removed
+      dependencies:
+        rhcl:
+          config:
+            tlsEnabled: true
+        nvidiaGPUOperator:
+          config:
+            spec:
+              operator:
+                defaultRuntime: crio
+              driver:
+                enabled: true
+              toolkit:
+                enabled: true
+              devicePlugin:
+                enabled: true
+              dcgm:
+                enabled: true
+              dcgmExporter:
+                enabled: true
+              gfd:
+                enabled: true
+              migManager:
+                enabled: true
+              nodeStatusExporter:
+                enabled: true
+              vfioManager:
+                enabled: true
+              vgpuDeviceManager:
+                enabled: true
+      services:
+        monitoring:
+          dsci:
+            managementState: Managed
+
+  - chart: external-secrets-operator
+    targetRevision: 1.1.7
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
+  - chart: maas-postgres
+    targetRevision: 0.1.0
+    namespace: redhat-ods-applications
+    values:
+      secretStore:
+        name: aws-secrets-manager
+      awsSecret:
+        key: rhai/maas/postgres-creds
+
+  - chart: maas-model
+    targetRevision: 0.1.0
+    namespace: llm
