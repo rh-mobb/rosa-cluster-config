@@ -76,6 +76,7 @@ infrastructure:
             gateway:
               openshiftRoute:
                 enabled: true
+                host: maas.apps.rosa.rhai.dfom.p3.openshiftapps.com
               spec:
                 listeners:
                   - name: https
