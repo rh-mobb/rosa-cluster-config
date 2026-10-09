@@ -145,9 +145,11 @@ infrastructure:
         enabled: true
 
   - chart: maas-postgres
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: redhat-ods-applications
     values:
+      image:
+        tag: latest
       secretStore:
         name: aws-secrets-manager
       awsSecret:
