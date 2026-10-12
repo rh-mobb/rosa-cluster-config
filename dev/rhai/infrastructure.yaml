@@ -194,7 +194,7 @@ infrastructure:
         displayName: "Qwen 2.5 3B Instruct (GPTQ-Int4)"
         description: "Quantized 3B instruction-tuned model on GPU"
         uri: "hf://Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4"
-        modelName: "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4"
+        modelName: "qwen25-3b"
         replicas: 1
         gpu:
           enabled: true
