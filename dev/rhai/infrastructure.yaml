@@ -161,3 +161,7 @@ infrastructure:
   - chart: maas-model
     targetRevision: 0.1.0
     namespace: llm
+
+  - chart: maas-verify
+    targetRevision: 0.1.0
+    namespace: maas-verify
