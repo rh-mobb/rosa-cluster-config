@@ -179,10 +179,12 @@ infrastructure:
         enabled: true
 
   - chart: maas-model
+    name: maas-model-simulator
     targetRevision: 0.2.0
     namespace: llm
 
   - chart: maas-model
+    name: maas-model-qwen25-3b
     targetRevision: 0.2.0
     namespace: llm
     values:
