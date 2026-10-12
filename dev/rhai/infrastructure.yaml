@@ -187,11 +187,11 @@ infrastructure:
     namespace: llm
     values:
       model:
-        name: qwen25-7b
-        displayName: "Qwen 2.5 7B Instruct (GPTQ-Int4)"
-        description: "Quantized 7B instruction-tuned model on GPU"
-        uri: "hf://Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4"
-        modelName: "Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4"
+        name: qwen25-3b
+        displayName: "Qwen 2.5 3B Instruct (GPTQ-Int4)"
+        description: "Quantized 3B instruction-tuned model on GPU"
+        uri: "hf://Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4"
+        modelName: "Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4"
         replicas: 1
         gpu:
           enabled: true
@@ -203,7 +203,7 @@ infrastructure:
             - -m
             - vllm.entrypoints.openai.api_server
           args:
-            - "--served-model-name=qwen25-7b"
+            - "--served-model-name=qwen25-3b"
             - --model=/mnt/models
             - --max-model-len=4096
             - --quantization=gptq
@@ -218,11 +218,11 @@ infrastructure:
               value: "1"
           resources:
             requests:
-              cpu: "2"
-              memory: 16Gi
+              cpu: "1"
+              memory: 8Gi
             limits:
-              cpu: "4"
-              memory: 32Gi
+              cpu: "2"
+              memory: 12Gi
       subscription:
         free:
           enabled: true
