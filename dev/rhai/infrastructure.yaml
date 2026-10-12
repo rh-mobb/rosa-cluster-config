@@ -183,5 +183,5 @@ infrastructure:
     namespace: llm
 
   - chart: maas-verify
-    targetRevision: 0.1.1
+    targetRevision: 0.1.2
     namespace: maas-verify
