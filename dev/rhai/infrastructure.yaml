@@ -180,14 +180,15 @@ infrastructure:
 
   - chart: maas-model
     name: maas-model-simulator
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     namespace: llm
 
   - chart: maas-model
     name: maas-model-qwen25-3b
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     namespace: llm
     values:
+      createNamespace: false
       model:
         name: qwen25-3b
         displayName: "Qwen 2.5 3B Instruct (GPTQ-Int4)"
