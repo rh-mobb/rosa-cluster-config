@@ -179,8 +179,61 @@ infrastructure:
         enabled: true
 
   - chart: maas-model
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     namespace: llm
+
+  - chart: maas-model
+    targetRevision: 0.2.0
+    namespace: llm
+    values:
+      model:
+        name: qwen25-7b
+        displayName: "Qwen 2.5 7B Instruct (GPTQ-Int4)"
+        description: "Quantized 7B instruction-tuned model on GPU"
+        uri: "hf://Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4"
+        modelName: "Qwen/Qwen2.5-7B-Instruct-GPTQ-Int4"
+        replicas: 1
+        gpu:
+          enabled: true
+          count: 1
+        container:
+          image: "registry.redhat.io/rhaii/vllm-cuda-rhel9@sha256:5800e12b2a465f15961fcf34b645d79ed4f91ec9161eab22b1205d12682183c8"
+          command:
+            - python
+            - -m
+            - vllm.entrypoints.openai.api_server
+          args:
+            - "--served-model-name=qwen25-7b"
+            - --model=/mnt/models
+            - --max-model-len=4096
+            - --quantization=gptq
+            - --enable-ssl-refresh
+            - --ssl-certfile=/var/run/kserve/tls/tls.crt
+            - --ssl-keyfile=/var/run/kserve/tls/tls.key
+            - --enable-force-include-usage
+          env:
+            - name: HF_HOME
+              value: /tmp/hf_home
+            - name: HF_HUB_DISABLE_XET
+              value: "1"
+          resources:
+            requests:
+              cpu: "2"
+              memory: 16Gi
+            limits:
+              cpu: "4"
+              memory: 32Gi
+      subscription:
+        free:
+          enabled: true
+          tokenLimit: 100
+          tokenWindow: 1m
+          priority: 10
+        premium:
+          enabled: true
+          tokenLimit: 100000
+          tokenWindow: 1m
+          priority: 20
 
   - chart: maas-verify
     targetRevision: 0.1.3
