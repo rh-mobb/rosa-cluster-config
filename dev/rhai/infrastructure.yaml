@@ -206,7 +206,8 @@ infrastructure:
             - "--served-model-name=qwen25-3b"
             - --model=/mnt/models
             - --max-model-len=4096
-            - --quantization=gptq
+            - --quantization=gptq_marlin
+            - --enforce-eager
             - --enable-ssl-refresh
             - --ssl-certfile=/var/run/kserve/tls/tls.crt
             - --ssl-keyfile=/var/run/kserve/tls/tls.key
