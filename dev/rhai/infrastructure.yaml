@@ -165,8 +165,8 @@ infrastructure:
       helper-status-checker:
         enabled: true
 
-  - chart: maas-postgres
-    targetRevision: 0.1.3
+  - chart: maas-additional-config
+    targetRevision: 0.1.0
     namespace: redhat-ods-applications
     values:
       image:
@@ -176,6 +176,8 @@ infrastructure:
       awsSecret:
         key: rhai/maas/postgres-creds
       userWorkloadMonitoring:
+        enabled: true
+      dashboardConfig:
         enabled: true
 
   - chart: maas-model
