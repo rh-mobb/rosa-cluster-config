@@ -257,10 +257,10 @@ infrastructure:
         secret:
           name: gemini-api-key
       model:
-        name: gemini-2-5-flash
-        displayName: "Gemini 2.5 Flash"
-        description: "Google Gemini 2.5 Flash via OpenAI-compatible API"
-        targetModel: gemini-2.5-flash
+        name: gemini-38-flash
+        displayName: "Gemini 3.8 Flash"
+        description: "Google Gemini 3.8 Flash via OpenAI-compatible API"
+        targetModel: gemini-3.8-flash
         path: /v1beta/openai/chat/completions
       secretStore:
         enabled: true
