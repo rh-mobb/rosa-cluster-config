@@ -247,7 +247,7 @@ infrastructure:
 
   - chart: maas-external-model
     name: maas-external-gemini
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: external-models
     values:
       provider:
