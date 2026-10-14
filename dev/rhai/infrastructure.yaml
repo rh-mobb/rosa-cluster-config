@@ -23,7 +23,7 @@ infrastructure:
         enabled: true
         rhoai:
           olm:
-            channel: stable-3.5
+            channel: beta
       profile: rhaii
       components:
         dashboard:
