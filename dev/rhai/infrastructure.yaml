@@ -13,7 +13,7 @@ defaults:
 infrastructure:
   - chart: rhai-on-openshift-chart
     gitRepoUrl: https://github.com/opendatahub-io/odh-gitops.git
-    targetRevision: main
+    targetRevision: 80c460f
     path: charts/rhai-on-openshift-chart
     namespace: redhat-ods-operator
     values:
@@ -23,7 +23,7 @@ infrastructure:
         enabled: true
         rhoai:
           olm:
-            channel: beta
+            channel: stable-3.5
       profile: rhaii
       components:
         dashboard:
