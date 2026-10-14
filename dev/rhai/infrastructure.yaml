@@ -58,9 +58,6 @@ infrastructure:
         trustyai:
           dsc:
             managementState: Managed
-        trainingoperator:
-          dsc:
-            managementState: Managed
         trainer:
           dsc:
             managementState: Managed
