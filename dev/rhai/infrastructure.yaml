@@ -166,7 +166,7 @@ infrastructure:
         enabled: true
 
   - chart: maas-additional-config
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     namespace: redhat-ods-applications
     values:
       image:
@@ -178,6 +178,8 @@ infrastructure:
       userWorkloadMonitoring:
         enabled: true
       dashboardConfig:
+        enabled: true
+      authorinoTls:
         enabled: true
 
   - chart: maas-model
