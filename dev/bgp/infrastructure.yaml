@@ -37,13 +37,22 @@ infrastructure:
       helper-status-checker:
         enabled: true
 
+  # EFS CSI driver - required for RWX PVs (KubeVirt VM disks on EFS)
+  - chart: cluster-efs
+    targetRevision: 0.5.1
+    namespace: openshift-cluster-csi-drivers
+    values:
+      platformMetadata:
+        enabled: true
+
   # OpenShift Virtualization - required for KubeVirt VMs on BGP-routed CUDNs
   - chart: rosa-virtualization
     targetRevision: 1.0.3
     namespace: openshift-cnv
     values:
       subscription:
-        startingCSV: kubevirt-hyperconverged-operator.v4.21.16
+        channel: candidate
+        startingCSV: kubevirt-hyperconverged-operator.v4.21.23
 
   # # CUDN BGP — operator IRSA + aws.* from SM via ESO; remote key from platform metadata
   # - chart: cudn-bgp-routing-operator
