@@ -250,8 +250,9 @@ infrastructure:
   - chart: maas-external-model
     name: maas-external-gemini
     targetRevision: 0.1.1
-    namespace: external-models
+    namespace: external-models-gemini
     values:
+      namespace: external-models-gemini
       provider:
         name: gemini
         type: openai
@@ -272,10 +273,9 @@ infrastructure:
   - chart: maas-external-model
     name: maas-external-openai
     targetRevision: 0.1.1
-    namespace: external-models
+    namespace: external-models-openai
     values:
-      # Namespace is owned by the maas-external-gemini release
-      createNamespace: false
+      namespace: external-models-openai
       provider:
         name: openai
         type: openai
