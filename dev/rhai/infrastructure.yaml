@@ -274,7 +274,6 @@ infrastructure:
     targetRevision: 0.1.1
     namespace: external-models
     values:
-      # Namespace is owned by the maas-external-gemini release
       createNamespace: false
       provider:
         name: openai
