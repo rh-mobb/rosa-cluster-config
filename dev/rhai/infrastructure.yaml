@@ -79,6 +79,21 @@ infrastructure:
                 host: maas.apps.rosa.rhai.dfom.p3.openshiftapps.com
               spec:
                 listeners:
+                  # Tells maas-api its public name. The Dashboard MaaS pages (API keys, Gen AI studio)
+                  # call maas-api GET /v1/tenants, which takes the hostname of the first HTTPS listener,
+                  # else status.addresses. Behind a Route the only address is the internal
+                  # *.svc.cluster.local name, which maas-api rejects ("Unable to determine external
+                  # hostname from Gateway status" -> Dashboard "maas-api is not available").
+                  # Kept as a SEPARATE first listener: a hostname makes a TLS listener match on SNI, so
+                  # the original hostname-less listener below stays as the catch-all for re-encrypted
+                  # router traffic. MaaS HTTPRoutes name no listener, so they attach to both.
+                  - name: https-external
+                    hostname: maas.apps.rosa.rhai.dfom.p3.openshiftapps.com
+                    port: 443
+                    protocol: HTTPS
+                    allowedRoutes:
+                      namespaces:
+                        from: Selector
                   - name: https
                     port: 443
                     protocol: HTTPS
@@ -331,7 +346,7 @@ infrastructure:
   # Prereq: MaaS API key on gpt-4o-mini-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
   - chart: genai-workspace
     name: genai-workspace-demo
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: demo
     values:
       namespace: demo
