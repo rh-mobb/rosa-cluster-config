@@ -182,12 +182,12 @@ infrastructure:
 
   - chart: maas-model
     name: maas-model-simulator
-    targetRevision: 0.2.1
+    targetRevision: 0.3.1
     namespace: llm
 
   - chart: maas-model
     name: maas-model-qwen25-3b
-    targetRevision: 0.2.1
+    targetRevision: 0.3.1
     namespace: llm
     values:
       createNamespace: false
@@ -244,7 +244,7 @@ infrastructure:
   # Cluster observability: UWM, MLflow (GenAI trace store), MaaS telemetry + usage logging.
   # Replaces maas-alerting-additional-config and the UWM setting in maas-additional-config.
   - chart: rhai-observability
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: redhat-ods-monitoring
     values:
       userWorkloadMonitoring:
@@ -258,7 +258,7 @@ infrastructure:
 
   - chart: maas-external-model
     name: maas-external-gemini
-    targetRevision: 0.1.1
+    targetRevision: 0.2.1
     namespace: external-models-gemini
     values:
       namespace: external-models-gemini
@@ -281,7 +281,7 @@ infrastructure:
 
   - chart: maas-external-model
     name: maas-external-openai
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     namespace: external-models-openai
     values:
       namespace: external-models-openai
@@ -339,13 +339,13 @@ infrastructure:
         gateway: https://maas.apps.rosa.rhai.dfom.p3.openshiftapps.com
       playground:
         models:
-          # TODO(before merge): confirm IDs with GET https://maas.apps.rosa.rhai.dfom.p3.openshiftapps.com/v1/models
-          - id: "TODO-confirm-qwen25-3b-model-id"
+          # IDs from GET https://maas.apps.rosa.rhai.dfom.p3.openshiftapps.com/maas-api/v1/models
+          - id: "publishers/llm/models/qwen25-3b"
             displayName: "Qwen 2.5 3B (GPU)"
-          - id: "TODO-confirm-gpt-4o-mini-model-id"
+          - id: "gpt-4o-mini"
             displayName: "GPT-4o mini"
       guardrails:
         judge:
-          model: "TODO-confirm-gpt-4o-mini-model-id"
+          model: "gpt-4o-mini"
         apiKey:
           awsSecretKey: rhai/guardrails/demo/maas-key
