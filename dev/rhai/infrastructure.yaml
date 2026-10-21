@@ -166,7 +166,7 @@ infrastructure:
         enabled: true
 
   - chart: maas-additional-config
-    targetRevision: 0.2.0
+    targetRevision: 0.3.0
     namespace: redhat-ods-applications
     values:
       image:
@@ -175,8 +175,6 @@ infrastructure:
         name: aws-secrets-manager
       awsSecret:
         key: rhai/maas/postgres-creds
-      userWorkloadMonitoring:
-        enabled: true
       dashboardConfig:
         enabled: true
       authorinoTls:
@@ -243,9 +241,20 @@ infrastructure:
           tokenWindow: 1m
           priority: 20
 
-  - chart: maas-alerting-additional-config
+  # Cluster observability: UWM, MLflow (GenAI trace store), MaaS telemetry + usage logging.
+  # Replaces maas-alerting-additional-config and the UWM setting in maas-additional-config.
+  - chart: rhai-observability
     targetRevision: 0.1.0
     namespace: redhat-ods-monitoring
+    values:
+      userWorkloadMonitoring:
+        enabled: true
+      mlflow:
+        enabled: true
+      telemetry:
+        enabled: true
+      usageLogging:
+        enabled: true
 
   - chart: maas-external-model
     name: maas-external-gemini
@@ -272,7 +281,7 @@ infrastructure:
 
   - chart: maas-external-model
     name: maas-external-openai
-    targetRevision: 0.1.1
+    targetRevision: 0.2.0
     namespace: external-models-openai
     values:
       namespace: external-models-openai
@@ -288,16 +297,55 @@ infrastructure:
         description: "OpenAI GPT-4o mini via OpenAI API"
         targetModel: gpt-4o-mini
         path: /v1/chat/completions
-      subscription:
-        enabled: true
-        tokenLimit: 100
-        tokenWindow: 1m
-        priority: 10
+      subscriptions:
+        free:
+          enabled: true
+          tokenLimit: 100
+          tokenWindow: 1m
+          priority: 10
+        # Judge tier for genai-workspace NemoGuardrails (~400 tokens/check, 2 checks/message)
+        guardrails:
+          enabled: true
+          tokenLimit: 20000
+          tokenWindow: 1m
+          priority: 15
       secretStore:
         enabled: true
       awsSecret:
         key: rhai/openai/api-key
 
   - chart: maas-verify
-    targetRevision: 0.1.3
+    targetRevision: 0.2.0
     namespace: maas-verify
+    values:
+      externalModels:
+        - name: gpt-4o-mini
+          namespace: external-models-openai
+          subscription: gpt-4o-mini-free
+        - name: gemini-38-flash
+          namespace: external-models-gemini
+      checkTelemetry:
+        enabled: true
+
+  # Team GenAI workspace (Playground + pgvector RAG + NemoGuardrails + MLflow tracing) for the demo.
+  # Prereq: MaaS API key on gpt-4o-mini-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
+  - chart: genai-workspace
+    name: genai-workspace-demo
+    targetRevision: 0.1.0
+    namespace: demo
+    values:
+      namespace: demo
+      maas:
+        gateway: https://maas.apps.rosa.rhai.dfom.p3.openshiftapps.com
+      playground:
+        models:
+          # TODO(before merge): confirm IDs with GET https://maas.apps.rosa.rhai.dfom.p3.openshiftapps.com/v1/models
+          - id: "TODO-confirm-qwen25-3b-model-id"
+            displayName: "Qwen 2.5 3B (GPU)"
+          - id: "TODO-confirm-gpt-4o-mini-model-id"
+            displayName: "GPT-4o mini"
+      guardrails:
+        judge:
+          model: "TODO-confirm-gpt-4o-mini-model-id"
+        apiKey:
+          awsSecretKey: rhai/guardrails/demo/maas-key
