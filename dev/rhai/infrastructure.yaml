@@ -244,7 +244,7 @@ infrastructure:
             limits:
               cpu: "2"
               memory: 12Gi
-      subscription:
+      subscriptions:
         free:
           enabled: true
           tokenLimit: 100
@@ -255,6 +255,13 @@ infrastructure:
           tokenLimit: 100000
           tokenWindow: 1m
           priority: 20
+        # Judge tier for genai-workspace NemoGuardrails (~400 tokens/check, 2 checks/message).
+        # Local GPU model: no external API cost.
+        guardrails:
+          enabled: true
+          tokenLimit: 20000
+          tokenWindow: 1m
+          priority: 15
 
   # Cluster observability: UWM, MLflow (GenAI trace store), MaaS telemetry + usage logging.
   # Replaces maas-alerting-additional-config and the UWM setting in maas-additional-config.
@@ -343,7 +350,7 @@ infrastructure:
         enabled: true
 
   # Team GenAI workspace (Playground + pgvector RAG + NemoGuardrails + MLflow tracing) for the demo.
-  # Prereq: MaaS API key on gpt-4o-mini-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
+  # Prereq: MaaS API key on qwen25-3b-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
   - chart: genai-workspace
     name: genai-workspace-demo
     targetRevision: 0.1.1
@@ -361,6 +368,7 @@ infrastructure:
             displayName: "GPT-4o mini"
       guardrails:
         judge:
-          model: "gpt-4o-mini"
+          # Local qwen25-3b on the GPU pool (no OpenAI credits needed). Key must be on qwen25-3b-guardrails.
+          model: "publishers/llm/models/qwen25-3b"
         apiKey:
           awsSecretKey: rhai/guardrails/demo/maas-key
