@@ -346,7 +346,7 @@ infrastructure:
   # Prereq: MaaS API key on gpt-4o-mini-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
   - chart: genai-workspace
     name: genai-workspace-demo
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     namespace: demo
     values:
       namespace: demo
