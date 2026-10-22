@@ -279,29 +279,6 @@ infrastructure:
         enabled: true
 
   - chart: maas-external-model
-    name: maas-external-gemini
-    targetRevision: 0.2.1
-    namespace: external-models-gemini
-    values:
-      namespace: external-models-gemini
-      provider:
-        name: gemini
-        type: openai
-        endpoint: generativelanguage.googleapis.com
-        secret:
-          name: gemini-api-key
-      model:
-        name: gemini-38-flash
-        displayName: "Gemini 3.8 Flash"
-        description: "Google Gemini 3.8 Flash via OpenAI-compatible API"
-        targetModel: gemini-3.8-flash
-        path: /v1beta/openai/chat/completions
-      secretStore:
-        enabled: true
-      awsSecret:
-        key: rhai/gemini/api-key
-
-  - chart: maas-external-model
     name: maas-external-openai
     targetRevision: 0.2.1
     namespace: external-models-openai
@@ -310,22 +287,21 @@ infrastructure:
       provider:
         name: openai
         type: openai
-        endpoint: api.openai.com
+        endpoint: test-ai-dp.openai.azure.com
         secret:
           name: openai-api-key
       model:
         name: gpt-4o-mini
-        displayName: "GPT-4o mini"
-        description: "OpenAI GPT-4o mini via OpenAI API"
+        displayName: "GPT-4o mini (Azure)"
+        description: "Azure OpenAI GPT-4o mini via AI Foundry"
         targetModel: gpt-4o-mini
-        path: /v1/chat/completions
+        path: /openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-12-01-preview
       subscriptions:
         free:
           enabled: true
           tokenLimit: 100
           tokenWindow: 1m
           priority: 10
-        # Judge tier for genai-workspace NemoGuardrails (~400 tokens/check, 2 checks/message)
         guardrails:
           enabled: true
           tokenLimit: 20000
@@ -344,8 +320,6 @@ infrastructure:
         - name: gpt-4o-mini
           namespace: external-models-openai
           subscription: gpt-4o-mini-free
-        - name: gemini-38-flash
-          namespace: external-models-gemini
       checkTelemetry:
         enabled: true
 
