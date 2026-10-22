@@ -1,0 +1,374 @@
+teamName: cluster-config
+
+defaults:
+  clusterName: dpenagos-rhai
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  plugin: false
+  AWS_REGION: "us-east-1"
+  AVP_TYPE: "awssecretsmanager"
+
+infrastructure:
+  - chart: rhai-on-openshift-chart
+    gitRepoUrl: https://github.com/opendatahub-io/odh-gitops.git
+    targetRevision: 80c460f
+    path: charts/rhai-on-openshift-chart
+    namespace: redhat-ods-operator
+    values:
+      skipCrdCheck: true
+      operator:
+        type: rhoai
+        enabled: true
+        rhoai:
+          olm:
+            channel: stable-3.5
+      profile: rhaii
+      components:
+        dashboard:
+          dsc:
+            managementState: Managed
+        workbenches:
+          dsc:
+            managementState: Managed
+        aipipelines:
+          dsc:
+            managementState: Managed
+        kserve:
+          dsc:
+            managementState: Managed
+            nim:
+              managementState: Managed
+          gateway:
+            spec:
+              listeners:
+                - name: https
+                  port: 443
+                  protocol: HTTPS
+                  allowedRoutes:
+                    namespaces:
+                      from: Selector
+        kueue:
+          dsc:
+            managementState: Unmanaged
+        ray:
+          dsc:
+            managementState: Managed
+        modelregistry:
+          dsc:
+            managementState: Managed
+        trustyai:
+          dsc:
+            managementState: Managed
+        trainer:
+          dsc:
+            managementState: Managed
+        feastoperator:
+          dsc:
+            managementState: Managed
+        aigateway:
+          dsc:
+            managementState: Managed
+            modelsAsAService:
+              managementState: Managed
+          modelsAsAService:
+            gateway:
+              openshiftRoute:
+                enabled: true
+                host: maas.apps.rosa.dpenagos-rhai.5mzq.p3.openshiftapps.com
+              spec:
+                listeners:
+                  # Tells maas-api its public name. The Dashboard MaaS pages (API keys, Gen AI studio)
+                  # call maas-api GET /v1/tenants, which takes the hostname of the first HTTPS listener,
+                  # else status.addresses. Behind a Route the only address is the internal
+                  # *.svc.cluster.local name, which maas-api rejects ("Unable to determine external
+                  # hostname from Gateway status" -> Dashboard "maas-api is not available").
+                  # Kept as a SEPARATE first listener: a hostname makes a TLS listener match on SNI, so
+                  # the original hostname-less listener below stays as the catch-all for re-encrypted
+                  # router traffic. MaaS HTTPRoutes name no listener, so they attach to both.
+                  - name: https-external
+                    hostname: maas.apps.rosa.dpenagos-rhai.5mzq.p3.openshiftapps.com
+                    port: 443
+                    protocol: HTTPS
+                    allowedRoutes:
+                      namespaces:
+                        from: Selector
+                  - name: https
+                    port: 443
+                    protocol: HTTPS
+                    allowedRoutes:
+                      namespaces:
+                        from: Selector
+        ogx:
+          dsc:
+            managementState: Managed
+        mlflowoperator:
+          dsc:
+            managementState: Managed
+      dependencies:
+        nfd:
+          config:
+            spec:
+              operand:
+                imagePullPolicy: IfNotPresent
+                servicePort: 12000
+              workerConfig:
+                configData: |
+                  core:
+                    sleepInterval: 60s
+                  sources:
+                    pci:
+                      deviceClassWhitelist:
+                        - "0200"
+                        - "03"
+                        - "12"
+                      deviceLabelFields:
+                        - "vendor"
+        rhcl:
+          config:
+            tlsEnabled: true
+        nvidiaGPUOperator:
+          config:
+            spec:
+              operator:
+                defaultRuntime: crio
+                use_ocp_driver_toolkit: true
+              daemonsets:
+                updateStrategy: RollingUpdate
+                rollingUpdate:
+                  maxUnavailable: "1"
+              driver:
+                enabled: true
+              toolkit:
+                enabled: true
+              devicePlugin:
+                enabled: true
+              dcgm:
+                enabled: true
+              dcgmExporter:
+                enabled: true
+              gfd:
+                enabled: true
+              migManager:
+                enabled: true
+              nodeStatusExporter:
+                enabled: true
+              vfioManager:
+                enabled: true
+              vgpuDeviceManager:
+                enabled: true
+              sandboxDevicePlugin:
+                enabled: true
+              ccManager:
+                enabled: true
+      services:
+        monitoring:
+          dsci:
+            managementState: Managed
+
+  - chart: external-secrets-operator
+    targetRevision: 1.1.7
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
+  - chart: maas-additional-config
+    targetRevision: 0.3.0
+    namespace: redhat-ods-applications
+    values:
+      image:
+        tag: latest
+      secretStore:
+        name: aws-secrets-manager
+      awsSecret:
+        key: rhai/maas/postgres-creds
+      dashboardConfig:
+        enabled: true
+      authorinoTls:
+        enabled: true
+
+  - chart: maas-model
+    name: maas-model-simulator
+    targetRevision: 0.3.1
+    namespace: llm
+
+  - chart: maas-model
+    name: maas-model-qwen25-3b
+    targetRevision: 0.3.1
+    namespace: llm
+    values:
+      createNamespace: false
+      model:
+        name: qwen25-3b
+        displayName: "Qwen 2.5 3B Instruct (GPTQ-Int4)"
+        description: "Quantized 3B instruction-tuned model on GPU"
+        uri: "hf://Qwen/Qwen2.5-3B-Instruct-GPTQ-Int4"
+        modelName: "qwen25-3b"
+        replicas: 1
+        gpu:
+          enabled: true
+          count: 1
+        container:
+          image: "registry.redhat.io/rhaii/vllm-cuda-rhel9@sha256:5800e12b2a465f15961fcf34b645d79ed4f91ec9161eab22b1205d12682183c8"
+          command:
+            - python
+            - -m
+            - vllm.entrypoints.openai.api_server
+          args:
+            - "--served-model-name=qwen25-3b"
+            - --model=/mnt/models
+            - --max-model-len=4096
+            - --quantization=gptq_marlin
+            - --enforce-eager
+            - --enable-ssl-refresh
+            - --ssl-certfile=/var/run/kserve/tls/tls.crt
+            - --ssl-keyfile=/var/run/kserve/tls/tls.key
+            - --enable-force-include-usage
+          env:
+            - name: HF_HOME
+              value: /tmp/hf_home
+            - name: HF_HUB_DISABLE_XET
+              value: "1"
+          resources:
+            requests:
+              cpu: "1"
+              memory: 8Gi
+            limits:
+              cpu: "2"
+              memory: 12Gi
+      subscriptions:
+        free:
+          enabled: true
+          tokenLimit: 100
+          tokenWindow: 1m
+          priority: 10
+        premium:
+          enabled: true
+          tokenLimit: 100000
+          tokenWindow: 1m
+          priority: 20
+        # Judge tier for genai-workspace NemoGuardrails (~400 tokens/check, 2 checks/message).
+        # Local GPU model: no external API cost.
+        guardrails:
+          enabled: true
+          tokenLimit: 20000
+          tokenWindow: 1m
+          priority: 15
+
+  # Cluster observability: UWM, MLflow (GenAI trace store), MaaS telemetry + usage logging.
+  # Replaces maas-alerting-additional-config and the UWM setting in maas-additional-config.
+  - chart: rhai-observability
+    targetRevision: 0.1.1
+    namespace: redhat-ods-monitoring
+    values:
+      userWorkloadMonitoring:
+        enabled: true
+      mlflow:
+        enabled: true
+      telemetry:
+        enabled: true
+      usageLogging:
+        enabled: true
+
+  - chart: maas-external-model
+    name: maas-external-gemini
+    targetRevision: 0.2.1
+    namespace: external-models-gemini
+    values:
+      namespace: external-models-gemini
+      provider:
+        name: gemini
+        type: openai
+        endpoint: generativelanguage.googleapis.com
+        secret:
+          name: gemini-api-key
+      model:
+        name: gemini-38-flash
+        displayName: "Gemini 3.8 Flash"
+        description: "Google Gemini 3.8 Flash via OpenAI-compatible API"
+        targetModel: gemini-3.8-flash
+        path: /v1beta/openai/chat/completions
+      secretStore:
+        enabled: true
+      awsSecret:
+        key: rhai/gemini/api-key
+
+  - chart: maas-external-model
+    name: maas-external-openai
+    targetRevision: 0.2.1
+    namespace: external-models-openai
+    values:
+      namespace: external-models-openai
+      provider:
+        name: openai
+        type: openai
+        endpoint: api.openai.com
+        secret:
+          name: openai-api-key
+      model:
+        name: gpt-4o-mini
+        displayName: "GPT-4o mini"
+        description: "OpenAI GPT-4o mini via OpenAI API"
+        targetModel: gpt-4o-mini
+        path: /v1/chat/completions
+      subscriptions:
+        free:
+          enabled: true
+          tokenLimit: 100
+          tokenWindow: 1m
+          priority: 10
+        # Judge tier for genai-workspace NemoGuardrails (~400 tokens/check, 2 checks/message)
+        guardrails:
+          enabled: true
+          tokenLimit: 20000
+          tokenWindow: 1m
+          priority: 15
+      secretStore:
+        enabled: true
+      awsSecret:
+        key: rhai/openai/api-key
+
+  - chart: maas-verify
+    targetRevision: 0.2.0
+    namespace: maas-verify
+    values:
+      externalModels:
+        - name: gpt-4o-mini
+          namespace: external-models-openai
+          subscription: gpt-4o-mini-free
+        - name: gemini-38-flash
+          namespace: external-models-gemini
+      checkTelemetry:
+        enabled: true
+
+  # Team GenAI workspace (Playground + pgvector RAG + NemoGuardrails + MLflow tracing) for the demo.
+  # Prereq: MaaS API key on qwen25-3b-guardrails stored at AWS SM rhai/guardrails/demo/maas-key.
+  - chart: genai-workspace
+    name: genai-workspace-demo
+    targetRevision: 0.1.1
+    namespace: demo
+    values:
+      namespace: demo
+      maas:
+        gateway: https://maas.apps.rosa.dpenagos-rhai.5mzq.p3.openshiftapps.com
+      playground:
+        models:
+          # IDs from GET https://maas.apps.rosa.dpenagos-rhai.5mzq.p3.openshiftapps.com/maas-api/v1/models
+          - id: "publishers/llm/models/qwen25-3b"
+            displayName: "Qwen 2.5 3B (GPU)"
+          - id: "gpt-4o-mini"
+            displayName: "GPT-4o mini"
+      guardrails:
+        judge:
+          # Local qwen25-3b on the GPU pool (no OpenAI credits needed). Key must be on qwen25-3b-guardrails.
+          model: "publishers/llm/models/qwen25-3b"
+        apiKey:
+          awsSecretKey: rhai/guardrails/demo/maas-key
