@@ -1,6 +1,8 @@
-# pczarkow Cluster Configuration
+# cz-demo / dev/pczarkow Cluster Configuration
 
-This directory contains the GitOps configuration for the `pczarkow` ROSA HCP cluster.
+This directory contains GitOps configuration for the **cz-demo** ROSA HCP public
+recipe (`TF_VAR_cluster_name=cz-demo`, `gitops_git_path=dev/pczarkow`). Operator
+pins target **OCP 5.x** (cluster-logging `stable-6.5+`, EFS via platform metadata).
 
 ## Files
 

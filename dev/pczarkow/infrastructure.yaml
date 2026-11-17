@@ -1,8 +1,8 @@
 #################################################################
-# Infrastructure Configuration for pczarkow cluster
+# Infrastructure Configuration for cz-demo (ROSA HCP public recipe)
 #
-# This file defines infrastructure components deployed via GitOps
-# using the app-of-apps-infrastructure Helm chart.
+# OCP 5.x: use cluster-logging stable-6.5+ and EFS CSI from the stable
+# channel (no stale startingCSV pin). IRSA + EFS from platform metadata.
 #################################################################
 
 #################################################################
@@ -14,60 +14,47 @@ teamName: cluster-config
 # Default Values for app-of-apps-infrastructure helm chart
 #################################################################
 defaults:
-  # Cluster name
-  clusterName: pczarkow
+  clusterName: cz-demo
 
-  # ArgoCD application defaults
   finalizers: resources-finalizer.argocd.argoproj.io
   gitopsNamespace: openshift-gitops
 
-  # Helm repository defaults
   helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
   path: charts
 
-  # Vault plugin defaults (for AWS Secrets Manager integration)
   plugin: false
-  AWS_REGION: "ap-southeast-2"  # Update if your cluster is in a different region
+  AWS_REGION: "ap-southeast-2"
 
 #################################################################
 # INFRASTRUCTURE Charts to be deployed.
-#
-# Common infrastructure components for ROSA HCP clusters.
-# Update role ARNs and file system IDs with your actual values
-# after Terraform creates the resources.
 #################################################################
 infrastructure:
-  # EFS CSI Driver - Provides shared file storage
-  # Update roleArn and fileSystemId after Terraform creates EFS resources
+  # EFS CSI — roleArn + fileSystemId from bootstrap ConfigMap rosa-platform-metadata
   - chart: cluster-efs
-    targetRevision: 0.4.14
+    targetRevision: 0.5.1
     namespace: openshift-cluster-csi-drivers
     values:
-      roleArn: arn:aws:iam::660250927410:role/pczarkow-rosa-efs-csi-role-iam  # Update ACCOUNT_ID
-      fileSystemId: fs-0015837396e03a7ba  # Update with actual EFS file system ID from Terraform outputs
-      helper-operator:
-        startingCSV: aws-efs-csi-driver-operator.v4.21.0-202608120811
-  # web terminal operator
+      platformMetadata:
+        enabled: true
+
   - chart: web-terminal-operator
     targetRevision: 1.0.0
     namespace: openshift-operators
     values:
-  # Compliance Operator - Provides compliance scanning and reporting
+
   - chart: compliance-operator
     targetRevision: 1.2.12
     namespace: openshift-compliance
     values:
       helper-operator:
-        startingCSV: compliance-operator.v1.9.1
+        startingCSV: compliance-operator.v1.10.1
 
-  # Overprovisioning - Optimizes cluster resource utilization and costs
   - chart: overprovisioning
     targetRevision: 0.0.7
     namespace: overprovisioning
     values:
 
-  # Cluster Logging - Integrates with AWS CloudWatch for centralized logging
-  # Update roleArn after Terraform creates CloudWatch IAM role
+  # Cluster Logging — stable-6.5+ for OCP 5.x (stable-6.4 not in catalog)
   - chart: cluster-logging
     targetRevision: 0.5.15
     namespace: openshift-logging
@@ -75,29 +62,13 @@ infrastructure:
       credentials: |
         [default]
         sts_regional_endpoints = regional
-        role_arn: arn:aws:iam::660250927410:role/pczarkow-rosa-cloudwatch-role-iam
+        role_arn: arn:aws:iam::808082629126:role/cz-demo-rosa-cloudwatch-role-iam
         web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
-      region: us-east-2  # Update if your cluster is in a different region
-      clustername: pczarkow
+      region: ap-southeast-2
+      clustername: cz-demo
       helper-operator:
-        startingCSV: cluster-logging.v6.4.6
-
-  # Optional: Advanced Cluster Management (ACM) - For multi-cluster management
-  # Uncomment if you need ACM for managing multiple clusters
-  # - chart: acm-operator
-  #   targetRevision: 0.5.13
-  #   namespace: open-cluster-management
-  #   annotations:
-  #     argocd.argoproj.io/compare-options: IgnoreExtraneous
-  #   values:
-  #     helper-operator:
-  #       startingCSV: advanced-cluster-management.v2.16.2
-
-  # Optional: Red Hat Advanced Cluster Security (RHACS) - Security scanning and policy enforcement
-  # Uncomment if you need RHACS for security scanning
-  # - chart: rhacs-operator
-  #   targetRevision: 0.1.8
-  #   namespace: rhacs-operator
-  #   values:
-  #     helper-operator:
-  #       startingCSV: rhacs-operator.v4.11.1
+        operators:
+          cluster-logging:
+            subscription:
+              channel: stable-6.5
+        startingCSV: cluster-logging.v6.5.4
