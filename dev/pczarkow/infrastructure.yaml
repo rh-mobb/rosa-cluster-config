@@ -29,6 +29,21 @@ defaults:
 # INFRASTRUCTURE Charts to be deployed.
 #################################################################
 infrastructure:
+  # ESO IRSA from bootstrap ConfigMap rosa-platform-metadata (enable_secrets_manager_iam on cluster).
+  # Doc: validated-pattern-terraform-rosa docs/architecture/platform-metadata-irsa.md
+  - chart: external-secrets-operator
+    targetRevision: 1.1.7
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
   # EFS CSI — roleArn + fileSystemId from bootstrap ConfigMap rosa-platform-metadata
   - chart: cluster-efs
     targetRevision: 0.5.1
