@@ -56,16 +56,11 @@ infrastructure:
 
   # Cluster Logging — stable-6.5+ for OCP 5.x (stable-6.4 not in catalog)
   - chart: cluster-logging
-    targetRevision: 0.5.15
+    targetRevision: 0.5.16
     namespace: openshift-logging
     values:
-      credentials: |
-        [default]
-        sts_regional_endpoints = regional
-        role_arn: arn:aws:iam::808082629126:role/cz-demo-rosa-cloudwatch-role-iam
-        web_identity_token_file = /var/run/secrets/openshift/serviceaccount/token
-      region: ap-southeast-2
-      clustername: cz-demo
+      platformMetadata:
+        enabled: true
       helper-operator:
         operators:
           cluster-logging:
