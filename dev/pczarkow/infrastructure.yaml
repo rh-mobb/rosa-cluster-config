@@ -56,7 +56,7 @@ infrastructure:
 
   # Cluster Logging — stable-6.5+ for OCP 5.x (stable-6.4 not in catalog)
   - chart: cluster-logging
-    targetRevision: 0.5.16
+    targetRevision: 0.5.17
     namespace: openshift-logging
     values:
       platformMetadata:
