@@ -1,0 +1,68 @@
+#################################################################
+# Infrastructure — public-ocp5 (ROSA HCP public, OCP 5.x + agentic)
+#
+# OCP 5.x: cluster-logging stable-6.5+; IRSA from rosa-platform-metadata.
+# Installer: vp-terraform-rosa clusters/public-ocp5
+#################################################################
+
+teamName: cluster-config
+
+defaults:
+  clusterName: public-ocp5
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+
+infrastructure:
+  - chart: external-secrets-operator
+    targetRevision: 1.1.7
+    namespace: external-secrets-operator
+    values:
+      platformMetadata:
+        enabled: true
+      secretStore:
+        name: aws-secrets-manager
+      target:
+        enabled: false
+      helper-status-checker:
+        enabled: true
+
+  - chart: cluster-efs
+    targetRevision: 0.5.1
+    namespace: openshift-cluster-csi-drivers
+    values:
+      platformMetadata:
+        enabled: true
+
+  - chart: web-terminal-operator
+    targetRevision: 1.0.0
+    namespace: openshift-operators
+    values:
+
+  - chart: compliance-operator
+    targetRevision: 1.2.12
+    namespace: openshift-compliance
+    values:
+      helper-operator:
+        startingCSV: compliance-operator.v1.10.1
+
+  - chart: overprovisioning
+    targetRevision: 0.0.7
+    namespace: overprovisioning
+    values:
+
+  - chart: cluster-logging
+    targetRevision: 0.5.18
+    namespace: openshift-logging
+    values:
+      platformMetadata:
+        enabled: true
+      helper-operator:
+        operators:
+          cluster-logging:
+            subscription:
+              channel: stable-6.5
+        startingCSV: cluster-logging.v6.5.4

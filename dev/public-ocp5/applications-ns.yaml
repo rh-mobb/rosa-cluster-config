@@ -1,0 +1,18 @@
+#################################################################
+# Application namespaces — public-ocp5
+#################################################################
+
+teamName: platform
+
+defaults:
+  clusterName: public-ocp5
+  finalizers: resources-finalizer.argocd.argoproj.io
+  gitopsNamespace: openshift-gitops
+  helmRepoUrl: https://rh-mobb.github.io/validated-pattern-helm-charts/
+  path: charts
+  chart: app-of-apps-namespaces
+  targetRevision: 0.3.3
+  plugin: false
+  AWS_REGION: "ap-southeast-2"
+
+applications: []
